@@ -15,8 +15,7 @@ const requestSchema = new mongoose.Schema({
         comment: String,
         timestamp: { type: Date, default: Date.now }
     }],
-    formData: { type: Object, default: {} },
-    createdAt: { type: Date, default: Date.now }
-});
+    formData: { type: Object, default: {} }
+}, { timestamps: true });
 
 module.exports = mongoose.model('Request', requestSchema);

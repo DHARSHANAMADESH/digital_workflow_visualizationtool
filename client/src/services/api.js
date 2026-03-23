@@ -16,6 +16,7 @@ export const requestService = {
     getAll: () => api.get('/requests'),
     getMy: (params) => api.get('/requests/my', { params }),
     getById: (id) => api.get(`/requests/${id}`),
+    getMetrics: () => api.get('/requests/metrics'),
 };
 
 export const approvalService = {
@@ -27,6 +28,10 @@ export const notificationService = {
     getAll: () => api.get('/notifications'),
     markRead: (id) => api.put(`/notifications/${id}/read`),
     markAllRead: () => api.put('/notifications/read-all'),
+};
+
+export const activityService = {
+    getRecent: (userId) => api.get(`/activity/recent/${userId}`),
 };
 
 // Add interceptor to include token

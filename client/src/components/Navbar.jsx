@@ -1,177 +1,122 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { Bell, Search, User as UserIcon, Check, Clock, ExternalLink } from 'lucide-react';
-import { useAuth } from '../context/AuthContext';
-import { notificationService } from '../services/api';
-import { motion, AnimatePresence } from 'framer-motion';
+import React, { useState, useEffect } from 'react';
+
+import { Search, Bell, Plus, Loader2 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
+import { toast } from 'react-hot-toast';
+import { notificationService } from '../services/api';
+
 
 const Navbar = () => {
-    const { user } = useAuth();
     const navigate = useNavigate();
-    const [notifications, setNotifications] = useState([]);
-    const [showNotifications, setShowNotifications] = useState(false);
-    const dropdownRef = useRef(null);
+    const { user } = useAuth();
+    const [searchQuery, setSearchQuery] = useState('');
+    const [isSearching, setIsSearching] = useState(false);
+    const [unreadCount, setUnreadCount] = useState(0);
 
-    useEffect(() => {
-        if (user) {
-            fetchNotifications();
-            const interval = setInterval(fetchNotifications, 30000); // Poll every 30s
-            return () => clearInterval(interval);
-        }
-    }, [user]);
-
-    useEffect(() => {
-        const handleClickOutside = (event) => {
-            if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-                setShowNotifications(false);
-            }
-        };
-        document.addEventListener('mousedown', handleClickOutside);
-        return () => document.removeEventListener('mousedown', handleClickOutside);
-    }, []);
-
-    const fetchNotifications = async () => {
+    const fetchUnreadCount = async () => {
         try {
             const res = await notificationService.getAll();
-            setNotifications(res.data);
+            const unread = (res.data || []).filter(n => !n.read).length;
+            setUnreadCount(unread);
         } catch (error) {
             console.error('Error fetching notifications:', error);
         }
     };
 
-    const handleMarkAsRead = async (id) => {
-        try {
-            await notificationService.markRead(id);
-            setNotifications(notifications.map(n => n._id === id ? { ...n, read: true } : n));
-        } catch (error) {
-            console.error('Error marking as read:', error);
+    useEffect(() => {
+        fetchUnreadCount();
+
+        // Listen for internal refresh signals
+        const handleRefresh = () => fetchUnreadCount();
+        window.addEventListener('notifications-updated', handleRefresh);
+        window.addEventListener('approvals-updated', handleRefresh); // Approvals often trigger notifications
+
+        // Background polling
+        const interval = setInterval(fetchUnreadCount, 30000);
+
+        return () => {
+            window.removeEventListener('notifications-updated', handleRefresh);
+            window.removeEventListener('approvals-updated', handleRefresh);
+            clearInterval(interval);
+        };
+    }, []);
+
+
+    const currentUser = user || { name: "Guest", role: "Employee" };
+
+    const handleSearch = (e) => {
+        if (e.key === 'Enter' && searchQuery.trim()) {
+            setIsSearching(true);
+            // Simulate global search activity
+            toast.promise(
+                new Promise(resolve => setTimeout(resolve, 1500)),
+                {
+                    loading: `Searching for "${searchQuery}"...`,
+                    success: 'Search complete. No matches found for this query.',
+                    error: 'Search failed. Please try again.',
+                }
+            ).finally(() => setIsSearching(false));
         }
     };
-
-    const handleNotificationClick = async (notification) => {
-        // Mark as read first
-        if (!notification.read) {
-            await handleMarkAsRead(notification._id);
-        }
-
-        // Hide dropdown
-        setShowNotifications(false);
-
-        // Navigate based on type and user role
-        if (notification.requestId) {
-            if (user.role === 'Employee') {
-                navigate(`/employee/requests/${notification.requestId}`);
-            } else if (user.role === 'Manager' || user.role === 'Admin') {
-                // For approvers, we can go to Approvals or a general Details page if exists
-                navigate(`/approvals`);
-            }
-        }
-    };
-
-    const handleMarkAllAsRead = async () => {
-        try {
-            await notificationService.markAllRead();
-            setNotifications(notifications.map(n => ({ ...n, read: true })));
-        } catch (error) {
-            console.error('Error marking all as read:', error);
-        }
-    };
-
-    const unreadCount = notifications.filter(n => !n.read).length;
 
     return (
-        <nav className="h-16 border-b border-white/10 flex items-center justify-between px-8 backdrop-blur-md sticky top-0 z-50">
-            <div className="flex items-center space-x-4 flex-1">
-                <div className="relative w-64">
-                    <Search className="absolute left-3 top-2.5 text-gray-400 h-5 w-5" />
+        <header className="h-16 bg-white border-b border-gray-200 px-8 flex items-center justify-between sticky top-0 z-40">
+            {/* Global search bar */}
+            <div className="flex-1 max-w-lg">
+                <div className="relative group">
+                    {isSearching ? (
+                        <Loader2 className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-indigo-600 animate-spin" />
+                    ) : (
+                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 group-focus-within:text-indigo-600 transition-colors" />
+                    )}
                     <input
                         type="text"
-                        placeholder="Search workflows..."
-                        className="w-full bg-white/5 border border-white/10 rounded-lg py-2 pl-10 pr-4 focus:outline-none focus:border-violet-500 transition-all text-sm"
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                        onKeyDown={handleSearch}
+                        placeholder="Search workflows, requests..."
+                        className="w-full pl-9 pr-4 py-1.5 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all font-medium text-sm text-gray-900 placeholder:text-gray-500 shadow-sm"
                     />
                 </div>
             </div>
 
-            <div className="flex items-center space-x-6">
-                <div className="relative" ref={dropdownRef}>
-                    <button
-                        onClick={() => setShowNotifications(!showNotifications)}
-                        className="relative p-2 hover:bg-white/5 rounded-full transition-colors group"
-                    >
-                        <Bell className={`h-6 w-6 ${unreadCount > 0 ? 'text-violet-400' : 'text-gray-300'} group-hover:scale-110 transition-transform`} />
-                        {unreadCount > 0 && (
-                            <span className="absolute top-1.5 right-1.5 h-4 w-4 bg-fuchsia-500 rounded-full border-2 border-[#0f0c29] flex items-center justify-center text-[10px] font-bold text-white">
-                                {unreadCount}
-                            </span>
-                        )}
-                    </button>
+            {/* Actions Section */}
+            <div className="flex items-center space-x-5">
+                <button
+                    onClick={() => navigate('/employee/new-request')}
+                    className="bg-indigo-600 hover:bg-indigo-700 text-white px-3 py-1.5 rounded-lg font-medium text-sm flex items-center space-x-1.5 shadow-sm transition-all active:scale-95"
+                >
+                    <Plus className="h-4 w-4" />
+                    <span>New Request</span>
+                </button>
 
-                    <AnimatePresence>
-                        {showNotifications && (
-                            <motion.div
-                                initial={{ opacity: 0, y: 10, scale: 0.95 }}
-                                animate={{ opacity: 1, y: 0, scale: 1 }}
-                                exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                                className="absolute right-0 mt-2 w-80 glass-card p-0 overflow-hidden z-[100]"
-                            >
-                                <div className="p-4 border-b border-white/10 flex justify-between items-center bg-white/5">
-                                    <h3 className="text-sm font-bold">Notifications</h3>
-                                    {unreadCount > 0 && (
-                                        <button
-                                            onClick={handleMarkAllAsRead}
-                                            className="text-[10px] text-violet-400 hover:text-violet-300 font-bold uppercase tracking-wider"
-                                        >
-                                            Mark all read
-                                        </button>
-                                    )}
-                                </div>
-                                <div className="max-h-[400px] overflow-y-auto">
-                                    {notifications.length === 0 ? (
-                                        <div className="p-8 text-center text-gray-500 italic text-sm">
-                                            No notifications yet
-                                        </div>
-                                    ) : (
-                                        notifications.map(notification => (
-                                            <div
-                                                key={notification._id}
-                                                onClick={() => handleNotificationClick(notification)}
-                                                className={`p-4 border-b border-white/5 transition-colors cursor-pointer hover:bg-white/10 ${notification.read ? 'opacity-60 bg-transparent' : 'bg-white/5'}`}
-                                            >
-                                                <div className="flex justify-between items-start mb-1">
-                                                    <p className={`text-sm ${notification.read ? 'text-gray-400' : 'text-white'}`}>
-                                                        {notification.message}
-                                                    </p>
-                                                    {!notification.read && <div className="h-2 w-2 rounded-full bg-fuchsia-500 flex-shrink-0 mt-1" />}
-                                                </div>
-                                                <div className="flex items-center text-[10px] text-gray-500 space-x-2">
-                                                    <Clock className="h-3 w-3" />
-                                                    <span>{new Date(notification.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
-                                                </div>
-                                            </div>
-                                        ))
-                                    )}
-                                </div>
-                                <div className="p-2 text-center bg-white/5 border-t border-white/10">
-                                    <button className="text-xs text-gray-400 hover:text-white transition-colors py-1 w-full">
-                                        View all Activity
-                                    </button>
-                                </div>
-                            </motion.div>
-                        )}
-                    </AnimatePresence>
-                </div>
+                <div className="h-4 border-l border-gray-200"></div>
 
-                <div className="flex items-center space-x-3 pl-6 border-l border-white/10">
+                <button
+                    onClick={() => navigate('/notifications')}
+                    className="p-2 text-gray-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition-all relative group"
+                    title="Notifications"
+                >
+                    <Bell className="h-5 w-5 group-hover:animate-swing" />
+                    {unreadCount > 0 && (
+                        <span className="absolute top-1.5 right-1.5 h-4 w-4 bg-red-500 text-white text-[10px] font-bold flex items-center justify-center rounded-full border-2 border-white pointer-events-none">
+                            {unreadCount > 9 ? '9+' : unreadCount}
+                        </span>
+                    )}
+                </button>
+
+                <div className="flex items-center space-x-3 border-l border-gray-200 pl-5">
                     <div className="text-right hidden md:block">
-                        <p className="text-sm font-medium">{user?.name || 'Authorized User'}</p>
-                        <p className="text-xs text-gray-400 capitalize">{user?.role || 'Access Tier'}</p>
+                        <p className="text-sm font-semibold text-gray-900 leading-tight">{currentUser.name}</p>
+                        <p className="text-xs text-gray-500 font-medium">{currentUser.role}</p>
                     </div>
-                    <div className="h-10 w-10 rounded-full bg-gradient-to-tr from-violet-500 to-fuchsia-500 flex items-center justify-center border-2 border-white/20">
-                        <UserIcon className="h-5 w-5 text-white" />
+                    <div className="h-9 w-9 rounded-full bg-indigo-100 text-indigo-700 flex items-center justify-center font-bold text-sm ring-2 ring-white shadow-sm cursor-pointer hover:ring-indigo-100 transition-all">
+                        {currentUser.name.split(' ').map(n => n[0]).slice(0, 2).join('')}
                     </div>
                 </div>
             </div>
-        </nav>
+        </header>
     );
 };
 

@@ -1,47 +1,170 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useAuth } from '../context/AuthContext';
-import { Shield, Settings, Users, GitBranch } from 'lucide-react';
-import Dashboard from './Dashboard';
+import { LayoutDashboard, FileText, GitBranch, Activity, Shield, Settings, Users, BarChart2 } from 'lucide-react';
 import CreateWorkflow from './CreateWorkflow';
+import { requestService, workflowService } from '../services/api';
+import WorkflowCard from '../components/WorkflowCard';
+import { useNavigate } from 'react-router-dom';
+import WorkflowPipeline from '../components/dashboard/WorkflowPipeline';
+import { useSocket } from '../context/SocketContext';
 
 const AdminDashboard = () => {
     const { user } = useAuth();
+    const navigate = useNavigate();
+    const [workflows, setWorkflows] = useState([]);
+    const [metrics, setMetrics] = useState({
+        employee_request: 0,
+        manager_pending: 0,
+        admin_pending: 0,
+        completed: 0
+    });
+    const [loading, setLoading] = useState(true);
+    const { socket } = useSocket();
+
+    const fetchSystemData = async () => {
+        try {
+            const [wfRes, metricRes] = await Promise.all([
+                workflowService.getAll(),
+                requestService.getMetrics()
+            ]);
+            setWorkflows(wfRes.data);
+            setMetrics(metricRes.data);
+        } catch (error) {
+            console.error("Failed to fetch system analytics", error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    useEffect(() => {
+        fetchSystemData();
+
+        if (socket) {
+            socket.on('workflow_metrics_update', fetchSystemData);
+            socket.on('workflow_updated', fetchSystemData);
+        }
+
+        return () => {
+            if (socket) {
+                socket.off('workflow_metrics_update', fetchSystemData);
+                socket.off('workflow_updated', fetchSystemData);
+            }
+        };
+    }, [socket]);
+
 
     return (
         <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            className="space-y-8"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="space-y-12 pb-20 px-4 md:px-8 max-w-[1600px] mx-auto"
         >
-            <div className="flex justify-between items-center bg-red-600/10 p-6 rounded-2xl border border-red-500/20">
-                <div>
-                    <h1 className="text-red-100">System Admin: {user?.name}</h1>
-                    <p className="text-gray-400 mt-1">Full system control and workflow orchestration.</p>
-                </div>
-                <div className="h-16 w-16 rounded-full bg-gradient-to-tr from-red-500 to-orange-500 flex items-center justify-center border-4 border-white/10 shadow-xl">
-                    <Shield className="h-8 w-8 text-white" />
-                </div>
-            </div>
 
-            <div className="space-y-10">
-                <section>
-                    <div className="flex items-center space-x-3 mb-6 bg-white/5 w-fit px-4 py-2 rounded-full border border-white/5">
-                        <GitBranch className="h-4 w-4 text-red-400" />
-                        <span className="text-xs font-semibold uppercase tracking-wider text-gray-400">Workflow Designer</span>
+            {/* Workflow Pipeline View */}
+            <section className="bg-white rounded-[3rem] border border-gray-100 shadow-sm p-8 md:p-10">
+                <div className="flex items-center space-x-5 mb-8 px-2">
+                    <div className="h-12 w-12 rounded-2xl bg-indigo-50 flex items-center justify-center border border-indigo-100 shadow-inner">
+                        <LayoutDashboard className="h-6 w-6 text-indigo-600" />
                     </div>
-                    <CreateWorkflow />
+                    <div>
+                        <h2 className="text-2xl font-black text-gray-900 tracking-tighter uppercase">Workflow Pipeline</h2>
+                        <p className="text-gray-400 font-bold text-[10px] uppercase tracking-[0.15em] mt-0.5">Real-time status tracking</p>
+                    </div>
+                </div>
+                <WorkflowPipeline metrics={metrics} />
+            </section>
+
+            <div className="space-y-16">
+                {/* Workflow Designer Section */}
+                <section>
+                    <div className="flex items-center justify-between mb-10 px-6">
+                        <div className="flex items-center space-x-5">
+                            <div className="h-12 w-12 rounded-2xl bg-indigo-50 flex items-center justify-center border border-indigo-100 shadow-inner">
+                                <GitBranch className="h-6 w-6 text-indigo-600" />
+                            </div>
+                            <div>
+                                <h2 className="text-3xl font-black text-gray-900 tracking-tighter uppercase">Workflow Architect</h2>
+                                <p className="text-gray-400 font-bold text-xs uppercase tracking-[0.15em] mt-1">Design & Registry Management</p>
+                            </div>
+                        </div>
+                        <div className="h-px flex-1 bg-gradient-to-r from-indigo-100 to-transparent mx-10 hidden lg:block" />
+                    </div>
+
+                    <div className="bg-white rounded-[48px] border border-gray-100 shadow-sm ring-1 ring-black/5 overflow-hidden p-6 md:p-10">
+                        <CreateWorkflow />
+                    </div>
                 </section>
 
-                <div className="border-t border-white/5 pt-10">
-                    <div className="flex items-center space-x-3 mb-6 bg-white/5 w-fit px-4 py-2 rounded-full border border-white/5">
-                        <Users className="h-4 w-4 text-red-400" />
-                        <span className="text-xs font-semibold uppercase tracking-wider text-gray-400">System Activity</span>
+                {/* Available Workflows Section */}
+                <section>
+                    <div className="flex items-center space-x-5 mb-10 px-6">
+                        <div className="h-12 w-12 rounded-2xl bg-indigo-50 flex items-center justify-center border border-indigo-100 shadow-inner">
+                            <Activity className="h-6 w-6 text-indigo-600" />
+                        </div>
+                        <div>
+                            <h2 className="text-3xl font-black text-gray-900 tracking-tighter uppercase">Available Workflows</h2>
+                            <p className="text-gray-400 font-bold text-xs uppercase tracking-[0.15em] mt-1">System Protocol Directory</p>
+                        </div>
                     </div>
-                    <Dashboard />
-                </div>
-            </div>
-        </motion.div>
+
+                    <div className="bg-white rounded-3xl border border-gray-100 shadow-sm ring-1 ring-black/5 overflow-hidden">
+                        {loading ? (
+                            <div className="flex items-center justify-center p-12">
+                                <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-indigo-600"></div>
+                            </div>
+                        ) : workflows.length === 0 ? (
+                            <div className="p-12 text-center bg-gray-50 border-dashed border-2 border-gray-100">
+                                <h3 className="text-lg font-bold text-gray-900 mb-2">No Protocols Available</h3>
+                                <p className="text-sm text-gray-500 max-w-xs mx-auto">There are currently no workflows in the system.</p>
+                            </div>
+                        ) : (
+                            <div className="divide-y divide-gray-100">
+                                {/* Employee Workflows Section */}
+                                <div className="bg-gray-50/50 px-8 py-3 border-b border-gray-100">
+                                    <h3 className="text-[10px] font-black text-indigo-600 uppercase tracking-[0.2em] flex items-center space-x-2">
+                                        <div className="h-1.5 w-1.5 rounded-full bg-indigo-600 animate-pulse" />
+                                        <span>Employee Operational Protocols</span>
+                                    </h3>
+                                </div>
+                                {workflows.filter(wf => wf.allowedRoles?.includes('Employee')).map(wf => (
+                                    <div key={wf._id} className="group">
+                                        <div className="flex items-center justify-between p-4 px-6 md:px-8 transition-colors">
+                                            <div className="flex items-center space-x-4">
+                                                <div className="h-10 w-10 rounded-xl bg-gray-50 flex items-center justify-center border border-gray-100 text-gray-400 transition-all">
+                                                    <FileText className="h-5 w-5" />
+                                                </div>
+                                                <span className="text-base font-semibold text-gray-800 tracking-tight">{wf.workflowName}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                ))}
+
+                                {/* Manager Workflows Section */}
+                                <div className="bg-gray-50/50 px-8 py-3 border-b border-t border-gray-100">
+                                    <h3 className="text-[10px] font-black text-indigo-600 uppercase tracking-[0.2em] flex items-center space-x-2">
+                                        <div className="h-1.5 w-1.5 rounded-full bg-indigo-600 animate-pulse" />
+                                        <span>Manager Enterprise Protocols</span>
+                                    </h3>
+                                </div>
+                                {workflows.filter(wf => !wf.allowedRoles?.includes('Employee')).map(wf => (
+                                    <div key={wf._id} className="group">
+                                        <div className="flex items-center justify-between p-4 px-6 md:px-8 transition-colors">
+                                            <div className="flex items-center space-x-4">
+                                                <div className="h-10 w-10 rounded-xl bg-gray-50 flex items-center justify-center border border-gray-100 text-gray-400 transition-all">
+                                                    <FileText className="h-5 w-5" />
+                                                </div>
+                                                <span className="text-base font-semibold text-gray-800 tracking-tight">{wf.workflowName}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        )}
+                    </div>
+                </section>
+            </div >
+        </motion.div >
     );
 };
 

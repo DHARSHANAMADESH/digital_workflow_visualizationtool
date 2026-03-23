@@ -49,7 +49,7 @@ const RequestForm = () => {
         setSubmitting(true);
         try {
             await requestService.submit({
-                workflowId,
+                templateId: workflowId,
                 title: formData.title,
                 description: formData.description,
                 formData: {
@@ -70,176 +70,166 @@ const RequestForm = () => {
     if (loading) {
         return (
             <div className="h-[60vh] flex flex-col items-center justify-center space-y-4">
-                <Loader2 className="h-10 w-10 text-violet-500 animate-spin" />
-                <p className="text-gray-400">Preparing submission environment...</p>
+                <Loader2 className="h-10 w-10 text-indigo-600 animate-spin" />
+                <p className="text-gray-400 font-semibold uppercase tracking-widest text-[10px]">Secure Environment Protocol</p>
             </div>
         );
     }
 
     return (
         <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-8 pb-12"
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 pb-20 px-4"
         >
             {/* Left side: Form */}
-            <div className="lg:col-span-2 space-y-6">
-                <button onClick={() => navigate('/employee/new-request')} className="flex items-center space-x-2 text-gray-400 hover:text-white transition-colors group">
-                    <ArrowLeft className="h-4 w-4 group-hover:-translate-x-1 transition-transform" />
-                    <span>Back to Selection</span>
+            <div className="lg:col-span-8 space-y-6">
+                <button onClick={() => navigate('/employee/new-request')} className="flex items-center space-x-2 text-gray-500 hover:text-indigo-600 transition-all group font-semibold text-xs uppercase tracking-wider">
+                    <ArrowLeft className="h-3.5 w-3.5 group-hover:-translate-x-1 transition-transform" />
+                    <span>Cancel Initiation</span>
                 </button>
 
-                <div className="glass-card p-8 border border-white/10">
-                    <div className="mb-8">
-                        <h1 className="text-white">{workflow.workflowName}</h1>
-                        <p className="text-gray-400 mt-2">{workflow.description}</p>
+                <div className="bg-white p-8 rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
+                    <div className="mb-10">
+                        <h1 className="text-gray-900 font-semibold text-2xl tracking-tight leading-tight">{workflow.workflowName}</h1>
+                        <p className="text-sm text-gray-500 mt-2 leading-relaxed">{workflow.description}</p>
                     </div>
 
-                    <form onSubmit={handleSubmit} className="space-y-6">
+                    <form onSubmit={handleSubmit} className="space-y-8">
                         <div className="space-y-2">
-                            <label className="text-xs font-semibold text-gray-500 uppercase tracking-wider flex items-center space-x-2">
-                                <FileText className="h-4 w-4" />
-                                <span>Request Title</span>
+                            <label className="text-[11px] font-semibold text-gray-500 uppercase tracking-wider flex items-center space-x-2">
+                                <FileText className="h-3.5 w-3.5 text-indigo-500" />
+                                <span>Request Identity</span>
                             </label>
                             <input
                                 type="text"
                                 value={formData.title}
                                 onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                                placeholder="Short descriptive title for your request"
-                                className="w-full bg-white/5 border border-white/10 rounded-xl py-4 px-5 focus:outline-none focus:border-violet-500 transition-all text-white placeholder:text-gray-600"
+                                placeholder="Enter a descriptive title..."
+                                className="w-full bg-gray-50 border border-gray-200 rounded-xl py-4 px-5 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all text-gray-900 placeholder:text-gray-400 font-medium text-base"
                                 required
                             />
                         </div>
 
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <div className="space-y-2">
-                                <label className="text-xs font-semibold text-gray-500 uppercase tracking-wider">Priority Level</label>
-                                <select
-                                    value={formData.priority}
-                                    onChange={(e) => setFormData({ ...formData, priority: e.target.value })}
-                                    className="w-full bg-[#1a1635] border border-white/10 rounded-xl py-4 px-5 focus:outline-none focus:border-violet-500 transition-all text-white"
-                                >
-                                    <option value="Low">Low - Non Critical</option>
-                                    <option value="Normal">Normal - Standard Process</option>
-                                    <option value="High">High - Priority Review</option>
-                                    <option value="Urgent">Urgent - Immediate Attention</option>
-                                </select>
+                            <div className="space-y-6">
+                                <div className="space-y-2">
+                                    <label className="text-[11px] font-semibold text-gray-500 uppercase tracking-wider">Priority Protocol</label>
+                                    <select
+                                        value={formData.priority}
+                                        onChange={(e) => setFormData({ ...formData, priority: e.target.value })}
+                                        className="w-full bg-gray-50 border border-gray-200 rounded-xl py-4 px-5 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all text-gray-900 font-medium appearance-none cursor-pointer"
+                                    >
+                                        <option value="Low">Standard - Level 01</option>
+                                        <option value="Normal">Routine - Level 02</option>
+                                        <option value="High">Priority - Level 03</option>
+                                        <option value="Urgent">Critical - Level 04</option>
+                                    </select>
+                                </div>
+                                <div className="space-y-2">
+                                    <label className="text-[11px] font-semibold text-gray-500 uppercase tracking-wider">Execution Department</label>
+                                    <input
+                                        type="text"
+                                        value={formData.department}
+                                        onChange={(e) => setFormData({ ...formData, department: e.target.value })}
+                                        placeholder="e.g. Engineering, Product"
+                                        className="w-full bg-gray-50 border border-gray-200 rounded-xl py-4 px-5 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all text-gray-900 placeholder:text-gray-400 font-medium"
+                                    />
+                                </div>
                             </div>
+
                             <div className="space-y-2">
-                                <label className="text-xs font-semibold text-gray-500 uppercase tracking-wider">Department</label>
-                                <input
-                                    type="text"
-                                    value={formData.department}
-                                    onChange={(e) => setFormData({ ...formData, department: e.target.value })}
-                                    placeholder="e.g. Engineering, Sales"
-                                    className="w-full bg-white/5 border border-white/10 rounded-xl py-4 px-5 focus:outline-none focus:border-violet-500 transition-all text-white placeholder:text-gray-600"
+                                <label className="text-[11px] font-semibold text-gray-500 uppercase tracking-wider">Strategic Context</label>
+                                <textarea
+                                    value={formData.description}
+                                    onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                                    className="w-full h-full min-h-[160px] bg-gray-50 border border-gray-200 rounded-xl py-4 px-5 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all text-gray-900 placeholder:text-gray-400 font-medium resize-none"
+                                    placeholder="Provide detailed context for this request..."
+                                    required
                                 />
                             </div>
                         </div>
 
-                        <div className="space-y-2">
-                            <label className="text-xs font-semibold text-gray-500 uppercase tracking-wider flex items-center space-x-2">
-                                <span>Core Description</span>
-                            </label>
-                            <textarea
-                                value={formData.description}
-                                onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                                rows="4"
-                                placeholder="Describe the details of your request..."
-                                className="w-full bg-white/5 border border-white/10 rounded-xl py-4 px-5 focus:outline-none focus:border-violet-500 transition-all text-white placeholder:text-gray-600"
-                                required
-                            />
+                        <div className="pt-6 border-t border-gray-100">
+                            <button
+                                type="submit"
+                                disabled={submitting}
+                                className="w-full py-4 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-base shadow-sm hover:shadow-indigo-500/30 transition-all active:scale-[0.98] disabled:opacity-50 flex items-center justify-center space-x-3"
+                            >
+                                {submitting ? (
+                                    <>
+                                        <Loader2 className="h-5 w-5 animate-spin" />
+                                        <span className="uppercase tracking-widest text-xs">Transmitting...</span>
+                                    </>
+                                ) : (
+                                    <>
+                                        <Send className="h-5 w-5" />
+                                        <span className="uppercase tracking-widest text-xs font-bold">Dispatch to Pipeline</span>
+                                    </>
+                                )}
+                            </button>
                         </div>
-
-                        <div className="space-y-2">
-                            <label className="text-xs font-semibold text-gray-500 uppercase tracking-wider flex items-center space-x-2">
-                                <span>Additional Supporting Info</span>
-                            </label>
-                            <textarea
-                                value={formData.additionalInfo}
-                                onChange={(e) => setFormData({ ...formData, additionalInfo: e.target.value })}
-                                rows="2"
-                                placeholder="Any other context or links (optional)..."
-                                className="w-full bg-white/5 border border-white/10 rounded-xl py-4 px-5 focus:outline-none focus:border-violet-500 transition-all text-white placeholder:text-gray-600"
-                            />
-                        </div>
-
-                        <button
-                            type="submit"
-                            disabled={submitting}
-                            className={`w-full py-4 rounded-xl font-semibold flex items-center justify-center space-x-3 transition-all ${submitting
-                                ? 'bg-gray-600 cursor-not-allowed opacity-50'
-                                : 'bg-gradient-to-r from-violet-600 to-fuchsia-600 hover:shadow-[0_0_20px_rgba(139,92,246,0.3)]'
-                                }`}
-                        >
-                            {submitting ? (
-                                <>
-                                    <Loader2 className="h-5 w-5 animate-spin" />
-                                    <span>Submitting to Database...</span>
-                                </>
-                            ) : (
-                                <>
-                                    <Send className="h-5 w-5" />
-                                    <span>Dispatch Request</span>
-                                </>
-                            )}
-                        </button>
                     </form>
                 </div>
             </div>
 
             {/* Right side: Sidebar info */}
-            <div className="space-y-6">
-                <div className="glass-card p-6 border-l-4 border-l-violet-500">
-                    <h3 className="flex items-center space-x-2 text-violet-400 uppercase tracking-wider">
-                        <GitBranch className="h-5 w-5" />
-                        <span>Approval Path</span>
-                    </h3>
-                    <p className="text-gray-400 text-[12px] mt-1 mb-6">Expected sequence of organizational verification.</p>
+            <div className="lg:col-span-4 space-y-6 mt-10 lg:mt-0">
+                <div className="bg-white p-8 rounded-2xl border border-gray-200 shadow-sm relative overflow-hidden">
+                    <div className="absolute top-0 right-0 p-6 opacity-[0.02]">
+                        <GitBranch className="h-24 w-24 text-gray-900" />
+                    </div>
 
-                    <div className="space-y-8 relative">
-                        {workflow.steps.map((step, idx) => (
-                            <div key={idx} className="flex items-start space-x-4 relative">
-                                {idx < workflow.steps.length - 1 && (
-                                    <div className="absolute left-[15px] top-[30px] bottom-[-20px] w-0.5 bg-white/5" />
-                                )}
-                                <div className="h-8 w-8 rounded-full bg-violet-500/10 border border-violet-500/20 flex items-center justify-center flex-none relative z-10">
-                                    <span className="text-xs font-semibold text-violet-400">{idx + 1}</span>
-                                </div>
-                                <div className="space-y-1">
-                                    <h4 className="text-[14px] font-semibold text-white leading-tight">{step.stepName}</h4>
-                                    <div className="flex items-center space-x-2">
-                                        <div className="px-2 py-0.5 bg-white/5 rounded text-[10px] font-semibold text-gray-500 border border-white/5 uppercase">
-                                            Role: {step.approverRole}
-                                        </div>
+                    <div className="relative z-10">
+                        <h3 className="flex items-center space-x-2 text-indigo-600 uppercase tracking-wider text-[10px] font-bold mb-8">
+                            <GitBranch className="h-3.5 w-3.5" />
+                            <span>Verification Pipeline</span>
+                        </h3>
+
+                        <div className="space-y-0 relative pl-4">
+                            <div className="absolute left-[13px] top-6 bottom-6 w-px bg-gray-100 z-0" />
+
+                            {[
+                                { id: '01', title: 'Submission', sub: 'Identity Validation', color: 'indigo' },
+                                { id: '02', title: 'Manager Review', sub: 'Operational Approval', color: 'orange' },
+                                { id: '03', title: 'Admin Approval', sub: 'Executive Clearance', color: 'purple' }
+                            ].map((step, i) => (
+                                <div key={i} className="flex items-start space-x-5 pb-10 relative w-full">
+                                    <div className={`h-7 w-7 min-w-[28px] rounded-lg bg-${step.color}-50 border border-${step.color}-100 flex items-center justify-center z-10 shadow-sm ring-4 ring-white`}>
+                                        <span className={`text-[9px] font-bold text-${step.color}-600`}>{step.id}</span>
+                                    </div>
+                                    <div className="space-y-0.5">
+                                        <h4 className="text-xs font-semibold text-gray-900 uppercase tracking-tight">{step.title}</h4>
+                                        <p className="text-[9px] text-gray-400 font-bold uppercase tracking-widest">{step.sub}</p>
                                     </div>
                                 </div>
-                            </div>
-                        ))}
-                        <div className="flex items-start space-x-4">
-                            <div className="h-8 w-8 rounded-full bg-green-500/10 border border-green-500/20 flex items-center justify-center flex-none">
-                                <ShieldCheck className="h-4 w-4 text-green-500" />
-                            </div>
-                            <div className="space-y-1">
-                                <h4 className="text-sm font-bold text-green-400 leading-tight">Final Resolution</h4>
-                                <p className="text-xs text-gray-500 font-semibold uppercase tracking-wider">Success State</p>
+                            ))}
+
+                            <div className="flex items-start space-x-5 relative">
+                                <div className="h-7 w-7 min-w-[28px] rounded-lg bg-emerald-50 border border-emerald-100 flex items-center justify-center z-10 shadow-sm ring-4 ring-white">
+                                    <ShieldCheck className="h-4 w-4 text-emerald-600" />
+                                </div>
+                                <div className="space-y-0.5">
+                                    <h4 className="text-xs font-semibold text-gray-900 uppercase tracking-tight">Finalized</h4>
+                                    <p className="text-[9px] text-gray-400 font-bold uppercase tracking-widest">Asset Allocated</p>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <div className="glass-card p-6 border-white/5 bg-violet-600/5">
-                    <h3 className="text-xs font-semibold flex items-center space-x-2 text-gray-300 uppercase tracking-wider mb-4">
-                        <Mail className="h-4 w-4" />
-                        <span>Requester</span>
+                <div className="bg-white p-6 rounded-2xl border border-gray-200 shadow-sm">
+                    <h3 className="text-[10px] font-bold flex items-center space-x-2 text-gray-400 uppercase tracking-widest mb-6">
+                        <Mail className="h-3.5 w-3.5" />
+                        <span>Security Credentials</span>
                     </h3>
-                    <div className="flex items-center space-x-3">
-                        <div className="h-10 w-10 rounded-full bg-gradient-to-br from-violet-600/20 to-fuchsia-600/20 flex items-center justify-center font-bold text-white border border-white/10">
+                    <div className="flex items-center space-x-4">
+                        <div className="h-10 w-10 rounded-xl bg-indigo-600 flex items-center justify-center font-bold text-white shadow-md">
                             {user?.name?.[0]}
                         </div>
                         <div>
-                            <p className="text-sm font-semibold text-white">{user?.name}</p>
-                            <p className="text-[11px] text-gray-500 uppercase font-semibold">{user?.role}</p>
+                            <p className="text-sm font-semibold text-gray-900 leading-none tracking-tight">{user?.name}</p>
+                            <p className="text-[10px] text-gray-400 uppercase font-bold mt-1.5 tracking-wider italic">{user?.role}</p>
                         </div>
                     </div>
                 </div>
@@ -247,5 +237,6 @@ const RequestForm = () => {
         </motion.div>
     );
 };
+
 
 export default RequestForm;

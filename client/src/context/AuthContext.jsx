@@ -1,3 +1,4 @@
+console.log('AuthContext.jsx: Module evaluation started');
 import React, { createContext, useState, useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import api from '../services/api';
@@ -10,14 +11,25 @@ export const AuthProvider = ({ children }) => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        const storedUser = localStorage.getItem('user');
-        if (storedUser) {
-            const parsedUser = JSON.parse(storedUser);
-            setUser(parsedUser);
-            api.defaults.headers.common['Authorization'] = `Bearer ${parsedUser.token}`;
+        console.log('AuthProvider useEffect starting');
+        try {
+            const storedUser = localStorage.getItem('user');
+            console.log('Stored user:', storedUser);
+            if (storedUser) {
+                const parsedUser = JSON.parse(storedUser);
+                setUser(parsedUser);
+                api.defaults.headers.common['Authorization'] = `Bearer ${parsedUser.token}`;
+            }
+        } catch (error) {
+            console.error('Error parsing stored user:', error);
+            localStorage.removeItem('user'); // Clear corrupted data
+        } finally {
+            console.log('AuthProvider setting loading to false');
+            setLoading(false);
         }
-        setLoading(false);
     }, []);
+
+    console.log('AuthProvider rendering, loading:', loading);
 
     const login = async (email, password, role) => {
         const response = await api.post('/auth/login', { email, password, role });
@@ -45,7 +57,7 @@ export const AuthProvider = ({ children }) => {
 
     return (
         <AuthContext.Provider value={{ user, login, register, logout, loading }}>
-            {!loading && children}
+            {children}
         </AuthContext.Provider>
     );
 };

@@ -57,16 +57,16 @@ const Login = () => {
                 layout
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
-                className="glass-card w-full max-w-md p-8 relative overflow-hidden group transition-all duration-500"
+                className="bg-white w-full max-w-md p-10 rounded-3xl shadow-xl border border-gray-100 relative overflow-hidden group transition-all duration-500"
             >
                 {/* Decorative gradients */}
-                <div className="absolute -top-24 -right-24 w-48 h-48 bg-violet-600/20 rounded-full blur-3xl group-hover:bg-violet-600/30 transition-all duration-500" />
-                <div className="absolute -bottom-24 -left-24 w-48 h-48 bg-fuchsia-600/20 rounded-full blur-3xl group-hover:bg-fuchsia-600/30 transition-all duration-500" />
+                <div className="absolute -top-24 -right-24 w-64 h-64 bg-indigo-600/5 rounded-full blur-3xl group-hover:bg-indigo-600/10 transition-all duration-500" />
+                <div className="absolute -bottom-24 -left-24 w-64 h-64 bg-indigo-500/5 rounded-full blur-3xl group-hover:bg-indigo-500/10 transition-all duration-500" />
 
                 <div className="flex flex-col items-center mb-8 relative z-10">
                     <motion.div
                         whileHover={{ rotate: 15, scale: 1.1 }}
-                        className="p-3 bg-gradient-to-br from-violet-600 to-fuchsia-600 rounded-2xl mb-4 shadow-lg active:scale-95 transition-transform duration-300"
+                        className="p-3 bg-indigo-600 rounded-2xl mb-4 shadow-md active:scale-95 transition-transform duration-300"
                     >
                         <Layers className="h-8 w-8 text-white" />
                     </motion.div>
@@ -74,10 +74,11 @@ const Login = () => {
                         key={isRegister ? 'register-title' : 'login-title'}
                         initial={{ opacity: 0, y: -10 }}
                         animate={{ opacity: 1, y: 0 }}
+                        className="text-2xl font-bold text-gray-900"
                     >
                         {isRegister ? 'Create Account' : 'Welcome Back'}
                     </motion.h1>
-                    <p className="text-gray-400 mt-2">
+                    <p className="text-gray-500 mt-2 font-medium">
                         {isRegister ? 'Join FlowStream enterprise' : 'FlowStream Management System'}
                     </p>
                 </div>
@@ -98,7 +99,7 @@ const Login = () => {
                                 <input
                                     type="text"
                                     required
-                                    className="w-full bg-white/5 border border-white/10 rounded-xl py-3 px-4 focus:outline-none focus:border-violet-500 transition-all placeholder:text-gray-600"
+                                    className="w-full bg-gray-50 border border-gray-200 rounded-xl py-3 px-4 focus:outline-none focus:border-indigo-500 transition-all placeholder:text-gray-400 text-gray-900"
                                     placeholder="Enter your full name"
                                     value={formData.name}
                                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
@@ -115,7 +116,7 @@ const Login = () => {
                         <input
                             type="email"
                             required
-                            className="w-full bg-white/5 border border-white/10 rounded-xl py-3 px-4 focus:outline-none focus:border-violet-500 transition-all placeholder:text-gray-600"
+                            className="w-full bg-gray-50 border border-gray-200 rounded-xl py-3 px-4 focus:outline-none focus:border-indigo-500 transition-all placeholder:text-gray-400 text-gray-900"
                             placeholder="name@company.com"
                             value={formData.email}
                             onChange={(e) => setFormData({ ...formData, email: e.target.value })}
@@ -131,7 +132,7 @@ const Login = () => {
                             <input
                                 type="password"
                                 required
-                                className="w-full bg-white/5 border border-white/10 rounded-xl py-3 px-4 focus:outline-none focus:border-violet-500 transition-all placeholder:text-gray-600"
+                                className="w-full bg-gray-50 border border-gray-200 rounded-xl py-3 px-4 focus:outline-none focus:border-indigo-500 transition-all placeholder:text-gray-400 text-gray-900"
                                 placeholder="••••••••"
                                 value={formData.password}
                                 onChange={(e) => setFormData({ ...formData, password: e.target.value })}
@@ -153,7 +154,7 @@ const Login = () => {
                                     <input
                                         type="password"
                                         required
-                                        className="w-full bg-white/5 border border-white/10 rounded-xl py-3 px-4 focus:outline-none focus:border-violet-500 transition-all placeholder:text-gray-600"
+                                        className="w-full bg-gray-50 border border-gray-200 rounded-xl py-3 px-4 focus:outline-none focus:border-indigo-500 transition-all placeholder:text-gray-400 text-gray-900"
                                         placeholder="••••••••"
                                         value={formData.confirmPassword}
                                         onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
@@ -169,13 +170,13 @@ const Login = () => {
                             <span>System Role</span>
                         </label>
                         <select
-                            className="w-full bg-white/5 border border-white/10 rounded-xl py-3 px-4 focus:outline-none focus:border-violet-500 transition-all appearance-none cursor-pointer"
+                            className="w-full bg-gray-50 border border-gray-200 rounded-xl py-3 px-4 focus:outline-none focus:border-indigo-500 transition-all appearance-none cursor-pointer text-gray-900 font-medium"
                             value={formData.role}
                             onChange={(e) => setFormData({ ...formData, role: e.target.value })}
                         >
-                            <option value="Employee" className="bg-[#0f0c29]">Employee</option>
-                            <option value="Manager" className="bg-[#0f0c29]">Manager</option>
-                            <option value="Admin" className="bg-[#0f0c29]">Admin</option>
+                            <option value="Employee">Employee</option>
+                            <option value="Manager">Manager</option>
+                            <option value="Admin">Admin</option>
                         </select>
                     </div>
 
@@ -198,7 +199,7 @@ const Login = () => {
                         <button
                             type="button"
                             onClick={toggleMode}
-                            className="text-sm text-gray-400 hover:text-white transition-colors flex items-center justify-center space-x-2 mx-auto"
+                            className="text-sm text-gray-500 hover:text-indigo-700 font-medium transition-colors flex items-center justify-center space-x-2 mx-auto"
                         >
                             <span>{isRegister ? 'Already have an account? Sign In' : "Don't have an account? Create one"}</span>
                             <ArrowRight className="h-3 w-3" />
