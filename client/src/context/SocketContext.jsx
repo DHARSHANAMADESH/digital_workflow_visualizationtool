@@ -26,7 +26,7 @@ export const SocketProvider = ({ children }) => {
         }
 
         // Initialize socket connection
-        const SOCKET_URL = import.meta.env.VITE_API_URL ? import.meta.env.VITE_API_URL.replace('/api', '') : 'http://localhost:5000';
+        const SOCKET_URL = import.meta.env.VITE_API_URL ? import.meta.env.VITE_API_URL.replace('/api', '') : 'https://workflow-backend-zvpd.onrender.com/';
         const newSocket = io(SOCKET_URL, {
             transports: ['websocket'],
             reconnectionAttempts: 5
