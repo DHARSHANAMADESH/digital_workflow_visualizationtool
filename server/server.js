@@ -19,14 +19,15 @@ const PORT = process.env.PORT || 5000;
 // Create HTTP server
 const server = http.createServer(app);
 
-// Define allowed origins
-const allowedOrigins = process.env.CLIENT_URL || ['http://localhost:5173', 'http://localhost:5174', 'http://localhost:5175', 'http://localhost:5176'];
+// Define allowed origins (Setting to true allows any origin dynamically)
+const allowedOrigins = process.env.CLIENT_URL || true;
 
 // Initialize Socket.io
 const io = new Server(server, {
     cors: {
         origin: allowedOrigins,
-        methods: ['GET', 'POST']
+        methods: ['GET', 'POST'],
+        credentials: true
     }
 });
 
