@@ -34,8 +34,8 @@ const ManagerDashboard = () => {
         return (
             <div className="flex items-center justify-center min-h-[60vh]">
                 <div className="flex flex-col items-center space-y-4">
-                    <Loader2 className="w-10 h-10 animate-spin text-indigo-600" />
-                    <p className="text-indigo-700 font-medium tracking-wide">Syncing Manager Data...</p>
+                    <Loader2 className="w-10 h-10 animate-spin text-primary" />
+                    <p className="text-primary font-medium tracking-wide">Syncing Manager Data...</p>
                 </div>
             </div>
         );
@@ -103,9 +103,9 @@ const ManagerDashboard = () => {
     const CustomTooltip = ({ active, payload }) => {
         if (active && payload && payload.length) {
             return (
-                <div className="bg-white/90 backdrop-blur-sm px-4 py-3 rounded-xl shadow-xl justify-center flex flex-col items-center border border-indigo-100 z-50">
-                    <span className="text-xs font-bold text-gray-500 uppercase tracking-widest">{payload[0].name}</span>
-                    <span className="text-xl font-black text-gray-900 mt-1">{payload[0].value} <span className="text-sm">Reqs</span></span>
+                <div className="bg-white/90 backdrop-blur-sm px-4 py-3 rounded-xl shadow-xl justify-center flex flex-col items-center border border-primary/10 z-50">
+                    <span className="text-xs font-normal text-content-secondary uppercase tracking-widest">{payload[0].name}</span>
+                    <span className="text-xl font-semibold text-content-primary mt-1">{payload[0].value} <span className="text-sm">Reqs</span></span>
                 </div>
             );
         }
@@ -120,20 +120,20 @@ const ManagerDashboard = () => {
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
 
                 {/* Section 2: Approval Distribution (Donut Chart) */}
-                <div className="lg:col-span-4 bg-white p-8 rounded-[2rem] shadow-sm border border-gray-100 flex flex-col justify-between ring-1 ring-black/5 hover:shadow-xl hover:shadow-indigo-500/5 transition-all duration-300">
+                <div className="lg:col-span-4 bg-white p-8 rounded-[2rem] shadow-sm border border-border flex flex-col justify-between ring-1 ring-black/5 hover:shadow-xl hover:shadow-primary/5 transition-all duration-300">
                     <div className="mb-6">
-                        <h2 className="text-xl font-semibold tracking-tight text-gray-900 flex items-center">
+                        <h2 className="text-xl font-semibold tracking-tight text-content-primary flex items-center">
                             Approval Distribution
                         </h2>
-                        <p className="text-sm text-gray-500 mt-1">Status of Assigned Requests</p>
+                        <p className="text-sm text-content-secondary mt-1">Status of Assigned Requests</p>
                     </div>
 
                     <div className="flex-1 flex flex-col items-center justify-center min-h-[250px] relative">
                         {assignedRequests.length === 0 ? (
                             <div className="flex flex-col items-center justify-center opacity-60">
-                                <CheckCircle2 className="w-16 h-16 text-indigo-200 mb-4" />
-                                <span className="text-indigo-800 font-semibold text-lg">All Caught Up!</span>
-                                <span className="text-gray-500 text-sm">No assigned requests pending</span>
+                                <CheckCircle2 className="w-16 h-16 text-primary/20 mb-4" />
+                                <span className="text-primary font-semibold text-lg">All Caught Up!</span>
+                                <span className="text-content-secondary text-sm">No assigned requests pending</span>
                             </div>
                         ) : (
                             <>
@@ -146,7 +146,7 @@ const ManagerDashboard = () => {
                                                 cy="50%"
                                                 innerRadius={70}
                                                 outerRadius={100}
-                                                paddingAngle={4}
+                                                paddingAngle={distributionData.length > 1 ? 4 : 0}
                                                 dataKey="value"
                                                 stroke="none"
                                             >
@@ -160,10 +160,10 @@ const ManagerDashboard = () => {
 
                                     {/* Center Text */}
                                     <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
-                                        <span className="text-4xl font-semibold tracking-tight text-gray-900 leading-none">
+                                        <span className="text-4xl font-semibold tracking-tight text-content-primary leading-none">
                                             {assignedRequests.length}
                                         </span>
-                                        <span className="text-[10px] text-gray-400 font-semibold uppercase tracking-wider mt-1">
+                                        <span className="text-[10px] text-gray-400 font-normal uppercase tracking-wider mt-1">
                                             Total Requests
                                         </span>
                                     </div>
@@ -172,10 +172,10 @@ const ManagerDashboard = () => {
                                 {/* Legend */}
                                 <div className="flex justify-center flex-wrap gap-4 mt-6">
                                     {distributionData.map((item, idx) => (
-                                        <div key={idx} className="flex items-center bg-gray-50 px-3 py-1.5 rounded-lg border border-gray-100">
+                                        <div key={idx} className="flex items-center bg-gray-50 px-3 py-1.5 rounded-lg border border-border">
                                             <div className="w-2.5 h-2.5 rounded-full mr-2 shadow-sm" style={{ backgroundColor: item.color }} />
                                             <span className="text-xs font-medium text-gray-700 mr-2">{item.name}</span>
-                                            <span className="text-xs font-semibold text-gray-900">{getPercentage(item.value, assignedRequests.length)}%</span>
+                                            <span className="text-xs font-semibold text-content-primary">{getPercentage(item.value, assignedRequests.length)}%</span>
                                         </div>
                                     ))}
                                 </div>
@@ -185,19 +185,19 @@ const ManagerDashboard = () => {
                 </div>
 
                 {/* Section 3: Requests per Day (Line Chart / Area Chart) */}
-                <div className="lg:col-span-8 bg-white p-8 rounded-[2rem] shadow-sm border border-gray-100 flex flex-col ring-1 ring-black/5 hover:shadow-xl hover:shadow-indigo-500/5 transition-all duration-300">
+                <div className="lg:col-span-8 bg-white p-8 rounded-[2rem] shadow-sm border border-border flex flex-col ring-1 ring-black/5 hover:shadow-xl hover:shadow-primary/5 transition-all duration-300">
                     <div className="mb-6">
-                        <h2 className="text-xl font-semibold tracking-tight text-gray-900">Requests per Day</h2>
-                        <p className="text-sm text-gray-500 mt-1">Trend of Workflow Requests</p>
+                        <h2 className="text-xl font-semibold tracking-tight text-content-primary">Requests per Day</h2>
+                        <p className="text-sm text-content-secondary mt-1">Trend of Workflow Requests</p>
                     </div>
 
                     <div className="flex-1 min-h-[250px] mt-4">
                         <ResponsiveContainer width="100%" height="100%">
                             <AreaChart data={trendData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
                                 <defs>
-                                    <linearGradient id="colorIndigo" x1="0" y1="0" x2="0" y2="1">
-                                        <stop offset="5%" stopColor="#4f46e5" stopOpacity={0.4} />
-                                        <stop offset="95%" stopColor="#4f46e5" stopOpacity={0.0} />
+                                    <linearGradient id="colorTeal" x1="0" y1="0" x2="0" y2="1">
+                                        <stop offset="5%" stopColor="#14B8A6" stopOpacity={0.4} />
+                                        <stop offset="95%" stopColor="#14B8A6" stopOpacity={0.0} />
                                     </linearGradient>
                                 </defs>
                                 <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
@@ -217,16 +217,16 @@ const ManagerDashboard = () => {
                                 />
                                 <Tooltip
                                     contentStyle={{ borderRadius: '16px', border: 'none', boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1)', fontWeight: '500' }}
-                                    cursor={{ stroke: '#818cf8', strokeWidth: 2, strokeDasharray: '4 4' }}
+                                    cursor={{ stroke: '#14B8A6', strokeWidth: 2, strokeDasharray: '4 4' }}
                                 />
                                 <Area
                                     type="monotone"
                                     dataKey="requests"
-                                    stroke="#4f46e5"
+                                    stroke="#14B8A6"
                                     strokeWidth={4}
                                     fillOpacity={1}
-                                    fill="url(#colorIndigo)"
-                                    activeDot={{ r: 8, fill: '#fff', stroke: '#4f46e5', strokeWidth: 3 }}
+                                    fill="url(#colorTeal)"
+                                    activeDot={{ r: 8, fill: '#fff', stroke: '#14B8A6', strokeWidth: 3 }}
                                 />
                             </AreaChart>
                         </ResponsiveContainer>
@@ -235,10 +235,10 @@ const ManagerDashboard = () => {
             </div>
 
             {/* Section 4: Workflow Comparison (Progress Bars) */}
-            <div className="bg-white p-8 rounded-[2rem] shadow-sm border border-gray-100 ring-1 ring-black/5 hover:shadow-xl hover:shadow-indigo-500/5 transition-all duration-300">
+            <div className="bg-white p-8 rounded-[2rem] shadow-sm border border-border ring-1 ring-black/5 hover:shadow-xl hover:shadow-primary/5 transition-all duration-300">
                 <div className="mb-8">
-                    <h2 className="text-xl font-semibold tracking-tight text-gray-900">Workflow Analytics</h2>
-                    <p className="text-sm text-gray-500 mt-1">Activity breakdown by workflow category</p>
+                    <h2 className="text-xl font-semibold tracking-tight text-content-primary">Workflow Analytics</h2>
+                    <p className="text-sm text-content-secondary mt-1">Activity breakdown by workflow category</p>
                 </div>
 
                 <div className="space-y-6">
@@ -249,27 +249,27 @@ const ManagerDashboard = () => {
                         const pRejected = getPercentage(workflow.Rejected, total);
 
                         return (
-                            <div key={idx} className="group border border-gray-50 rounded-2xl p-5 hover:bg-indigo-50/30 transition-all duration-300">
+                            <div key={idx} className="group border border-gray-50 rounded-2xl p-5 hover:bg-background/30 transition-all duration-300">
                                 <div className="flex flex-col lg:flex-row lg:items-center gap-6">
 
                                     {/* Left: Name & Count */}
                                     <div className="flex items-center justify-between lg:w-[30%] min-w-[250px]">
                                         <div className="flex items-center space-x-4">
-                                            <div className="w-10 h-10 rounded-xl bg-indigo-50 flex items-center justify-center border border-indigo-100 text-indigo-600 group-hover:bg-indigo-500 group-hover:text-white transition-colors duration-300">
+                                            <div className="w-10 h-10 rounded-xl bg-background flex items-center justify-center border border-primary/10 text-primary group-hover:bg-primary group-hover:text-white transition-colors duration-300">
                                                 <Briefcase className="w-5 h-5" />
                                             </div>
                                             <span className="text-[15px] font-semibold tracking-tight text-gray-800">{workflow.name}</span>
                                         </div>
                                         <div className="flex flex-col items-end mr-4">
-                                            <span className="text-2xl font-semibold tracking-tight text-indigo-900 leading-none">{total}</span>
-                                            <span className="text-[10px] text-gray-400 font-semibold uppercase tracking-wider mt-1">Total</span>
+                                            <span className="text-2xl font-semibold tracking-tight text-content-primary leading-none">{total}</span>
+                                            <span className="text-[10px] text-gray-400 font-normal uppercase tracking-wider mt-1">Total</span>
                                         </div>
                                     </div>
 
                                     {/* Middle: Progress Bar */}
                                     <div className="flex-1 max-w-full lg:max-w-[40%] flex flex-col justify-center">
                                         {total === 0 ? (
-                                            <div className="w-full h-4 bg-gray-50 rounded-full border border-gray-100 flex items-center justify-center">
+                                            <div className="w-full h-4 bg-gray-50 rounded-full border border-border flex items-center justify-center">
                                                 <span className="text-[10px] text-gray-400 font-medium italic">Awaiting First Request</span>
                                             </div>
                                         ) : (
@@ -292,33 +292,33 @@ const ManagerDashboard = () => {
                                         {total > 0 ? (
                                             <>
                                                 {workflow.Approved > 0 && (
-                                                    <div className="flex items-center bg-white px-3 py-1.5 rounded-lg border border-gray-100 shadow-sm">
+                                                    <div className="flex items-center bg-white px-3 py-1.5 rounded-lg border border-border shadow-sm">
                                                         <div className="w-2.5 h-2.5 rounded-full bg-emerald-500 mr-2" />
                                                         <span className="text-xs font-medium text-gray-700 mr-2">Approved</span>
-                                                        <span className="text-sm font-semibold text-gray-900">{workflow.Approved}</span>
+                                                        <span className="text-sm font-semibold text-content-primary">{workflow.Approved}</span>
                                                     </div>
                                                 )}
                                                 {workflow.Pending > 0 && (
-                                                    <div className="flex items-center bg-white px-3 py-1.5 rounded-lg border border-gray-100 shadow-sm">
+                                                    <div className="flex items-center bg-white px-3 py-1.5 rounded-lg border border-border shadow-sm">
                                                         <div className="w-2.5 h-2.5 rounded-full bg-yellow-400 mr-2" />
                                                         <span className="text-xs font-medium text-gray-700 mr-2">Pending</span>
-                                                        <span className="text-sm font-semibold text-gray-900">{workflow.Pending}</span>
+                                                        <span className="text-sm font-semibold text-content-primary">{workflow.Pending}</span>
                                                     </div>
                                                 )}
                                                 {workflow.Rejected > 0 && (
-                                                    <div className="flex items-center bg-white px-3 py-1.5 rounded-lg border border-gray-100 shadow-sm">
+                                                    <div className="flex items-center bg-white px-3 py-1.5 rounded-lg border border-border shadow-sm">
                                                         <div className="w-2.5 h-2.5 rounded-full bg-red-500 mr-2" />
                                                         <span className="text-xs font-medium text-gray-700 mr-2">Rejected</span>
-                                                        <span className="text-sm font-semibold text-gray-900">{workflow.Rejected}</span>
+                                                        <span className="text-sm font-semibold text-content-primary">{workflow.Rejected}</span>
                                                     </div>
                                                 )}
                                             </>
                                         ) : (
-                                            <div className="opacity-0 lg:opacity-100 flex items-center bg-white px-4 py-1.5 rounded-lg border border-gray-100 shadow-sm">
+                                            <div className="opacity-0 lg:opacity-100 flex items-center bg-white px-4 py-1.5 rounded-lg border border-border shadow-sm">
                                                 <span className="text-xs font-medium text-gray-400">0 metrics available</span>
                                             </div>
                                         )}
-                                        <ChevronRight className="w-5 h-5 text-gray-300 ml-auto group-hover:text-indigo-500 transition-colors hidden lg:block" />
+                                        <ChevronRight className="w-5 h-5 text-gray-300 ml-auto group-hover:text-primary transition-colors hidden lg:block" />
                                     </div>
                                 </div>
                             </div>

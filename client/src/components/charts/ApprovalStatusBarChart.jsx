@@ -29,9 +29,9 @@ const ApprovalStatusBarChart = ({ requests = [] }) => {
     const CustomTooltip = ({ active, payload }) => {
         if (active && payload && payload.length) {
             return (
-                <div className="bg-[#0F172A] p-4 rounded-[20px] shadow-2xl border border-white/10 backdrop-blur-xl">
-                    <p className="text-indigo-400 text-[8px] font-black uppercase tracking-[0.2em] mb-2">{payload[0].name}</p>
-                    <p className="text-white font-black text-2xl tabular-nums">{payload[0].value} <span className="text-[10px] text-gray-500 font-bold uppercase ml-1">Total</span></p>
+                <div className="bg-gray-900 p-4 rounded-[20px] shadow-2xl border border-white/10 backdrop-blur-xl">
+                    <p className="text-indigo-400 text-[8px] font-normal uppercase tracking-[0.2em] mb-2">{payload[0].name}</p>
+                    <p className="text-white font-semibold text-2xl tabular-nums">{payload[0].value} <span className="text-[10px] text-content-secondary font-normal uppercase ml-1">Total</span></p>
                 </div>
             );
         }
@@ -49,7 +49,7 @@ const ApprovalStatusBarChart = ({ requests = [] }) => {
                             cy="50%"
                             innerRadius={70}
                             outerRadius={95}
-                            paddingAngle={8}
+                            paddingAngle={data.length > 1 ? 8 : 0}
                             dataKey="value"
                             stroke="none"
                             cornerRadius={12}
@@ -66,9 +66,32 @@ const ApprovalStatusBarChart = ({ requests = [] }) => {
                     </PieChart>
                 </ResponsiveContainer>
 
-                <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
-                    <span className="text-4xl font-black text-gray-900 tracking-tighter tabular-nums">{total}</span>
-                    <span className="text-[9px] text-gray-400 font-black uppercase tracking-[0.3em] mt-1 italic">Requests</span>
+                {/* Center Text Card */}
+                <div 
+                    className="absolute flex flex-col items-center justify-center pointer-events-none z-10"
+                    style={{
+                        top: '50%',
+                        left: '50%',
+                        transform: 'translate(-50%, -50%)',
+                        background: 'rgba(255, 255, 255, 0.9)',
+                        borderRadius: '16px',
+                        padding: '12px 18px',
+                        boxShadow: '0 8px 20px rgba(0,0,0,0.1)',
+                        backdropFilter: 'blur(8px)',
+                        WebkitBackdropFilter: 'blur(8px)'
+                    }}
+                >
+                    <span 
+                        className="tabular-nums"
+                        style={{ fontSize: '32px', fontWeight: 'bold', color: '#111827', lineHeight: '1' }}
+                    >
+                        {total}
+                    </span>
+                    <span 
+                        style={{ fontSize: '12px', fontWeight: '500', color: '#6B7280', marginTop: '4px', textTransform: 'uppercase', letterSpacing: '0.05em' }}
+                    >
+                        Requests
+                    </span>
                 </div>
             </div>
         </ChartCard>

@@ -12,7 +12,7 @@ const Sidebar = () => {
 
     const fetchPendingCount = () => {
         const role = currentUser.role?.toLowerCase();
-        if (role === 'manager' || role === 'admin') {
+        if (role === 'manager' || role === 'admin' || role === 'it' || role === 'finance') {
             approvalService.getAssigned()
                 .then(res => {
                     const userId = currentUser._id || currentUser.id;
@@ -72,20 +72,39 @@ const Sidebar = () => {
                 badge: pendingCount
             }
         ] : []),
+        ...(currentUser.role?.toLowerCase() === 'finance' ? [
+            {
+                name: 'Budgets',
+                icon: Layers,
+                path: '/finance/budgets'
+            }
+        ] : []),
+        ...(currentUser.role?.toLowerCase() === 'it' ? [
+            {
+                name: 'IT Queue',
+                icon: Layers,
+                path: '/manager-requests' // IT uses the same request list view
+            },
+            {
+                name: 'IT Approvals',
+                icon: CheckSquare,
+                path: '/approvals',
+                badge: pendingCount
+            }
+        ] : []),
     ];
 
     const systemItems = [
         { name: 'Notifications', icon: Bell, path: '/notifications' },
-        { name: 'Activity History', icon: Clock, path: '/activity-log' },
         { name: 'Settings', icon: SettingsIcon, path: '/settings' },
     ];
 
     return (
-        <aside className="w-64 bg-[#F9FAFB] text-gray-700 flex flex-col fixed h-full border-r border-gray-200 z-50">
+        <aside className="w-64 bg-white border-r border-border text-content-primary flex flex-col fixed h-full z-50 shadow-sm">
             <div className="px-6 py-8 flex-1">
-                <div className="flex items-center space-x-2 text-xl font-semibold tracking-tight text-gray-900 mb-10">
-                    <div className="p-1.5 bg-indigo-600 rounded-lg shadow-sm">
-                        <Layers className="h-5 w-5 text-white" />
+                <div className="flex items-center space-x-3 text-xl font-bold tracking-tight text-content-primary mb-10">
+                    <div className="p-2 bg-primary rounded-xl shadow-md">
+                        <Layers className="h-6 w-6 text-white" />
                     </div>
                     <span>FlowStream</span>
                 </div>
@@ -98,18 +117,18 @@ const Sidebar = () => {
                                     key={item.name}
                                     to={item.path}
                                     className={({ isActive }) =>
-                                        `flex items-center justify-between px-3 py-2 rounded-md transition-colors text-sm font-medium ${isActive
-                                            ? 'bg-gray-200/50 text-indigo-600'
-                                            : 'text-gray-600 hover:bg-gray-100/50 hover:text-gray-900'
+                                        `flex items-center justify-between px-4 py-3 rounded-xl transition-all duration-200 text-sm font-medium ${isActive
+                                            ? 'bg-primary text-white shadow-md'
+                                            : 'text-content-secondary hover:bg-background hover:text-primary'
                                         }`
                                     }
                                 >
                                     <div className="flex items-center space-x-3">
-                                        <item.icon className="h-4 w-4" />
+                                        <item.icon className={`h-4 w-4 ${location.pathname === item.path ? 'text-white' : 'text-content-secondary'}`} />
                                         <span>{item.name}</span>
                                     </div>
                                     {item.badge !== undefined && item.badge > 0 && (
-                                        <span className="bg-red-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full">
+                                        <span className="bg-red-500 text-white text-[10px] font-semibold px-2 py-0.5 rounded-full">
                                             {item.badge}
                                         </span>
                                     )}
@@ -119,20 +138,20 @@ const Sidebar = () => {
                     </div>
 
                     <div>
-                        <p className="px-3 text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">System</p>
+                        <p className="text-[10px] text-content-secondary/60 font-medium uppercase tracking-[0.2em] mb-4 px-4">System Protocols</p>
                         <div className="space-y-1">
                             {systemItems.map((item) => (
                                 <NavLink
                                     key={item.name}
                                     to={item.path}
                                     className={({ isActive }) =>
-                                        `flex items-center space-x-3 px-3 py-2 rounded-md transition-colors text-sm font-medium ${isActive
-                                            ? 'bg-gray-200/50 text-indigo-600'
-                                            : 'text-gray-600 hover:bg-gray-100/50 hover:text-gray-900'
+                                        `flex items-center space-x-3 px-4 py-3 rounded-xl transition-all duration-200 text-sm font-medium ${isActive
+                                            ? 'bg-primary text-white shadow-md'
+                                            : 'text-content-secondary hover:bg-background hover:text-primary'
                                         }`
                                     }
                                 >
-                                    <item.icon className="h-4 w-4" />
+                                    <item.icon className={`h-4 w-4 ${location.pathname === item.path ? 'text-white' : 'text-content-secondary'}`} />
                                     <span>{item.name}</span>
                                 </NavLink>
                             ))}
@@ -142,19 +161,19 @@ const Sidebar = () => {
             </div>
 
             {/* User Profile Card */}
-            <div className="p-4 border-t border-gray-200 space-y-2">
-                <div className="flex items-center space-x-3 bg-white border border-gray-200 p-2.5 rounded-lg shadow-sm">
-                    <div className="h-8 w-8 rounded-full bg-indigo-100 text-indigo-700 flex items-center justify-center font-bold text-xs ring-1 ring-inset ring-indigo-200">
+            <div className="p-6 bg-white border-t border-border space-y-4">
+                <div className="flex items-center space-x-3 bg-background border border-border p-4 rounded-xl shadow-sm">
+                    <div className="h-10 w-10 rounded-full bg-primary text-white flex items-center justify-center font-semibold text-sm shadow-md">
                         {currentUser.name.split(' ').map(n => n[0]).join('')}
                     </div>
                     <div className="min-w-0 flex-1">
-                        <p className="text-sm font-semibold text-gray-900 truncate tracking-tight leading-tight">{currentUser.name}</p>
-                        <p className="text-xs text-gray-500 truncate">{currentUser.role}</p>
+                        <p className="text-sm font-semibold text-content-primary truncate tracking-tight">{currentUser.name}</p>
+                        <p className="text-xs text-secondary font-medium truncate">{currentUser.role}</p>
                     </div>
                 </div>
                 <button
                     onClick={logout}
-                    className="w-full flex items-center space-x-3 px-3 py-2 rounded-md text-sm font-medium text-rose-600 hover:bg-rose-50 transition-colors group"
+                    className="w-full flex items-center justify-center space-x-3 px-4 py-3 rounded-xl text-sm font-medium text-content-secondary hover:bg-background hover:text-primary transition-all duration-200 group"
                 >
                     <LogOut className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
                     <span>Sign Out</span>

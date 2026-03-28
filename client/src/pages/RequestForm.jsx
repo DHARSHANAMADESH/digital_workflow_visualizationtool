@@ -16,7 +16,6 @@ const RequestForm = () => {
     const [formData, setFormData] = useState({
         title: '',
         description: '',
-        priority: 'Normal',
         department: '',
         additionalInfo: ''
     });
@@ -53,7 +52,6 @@ const RequestForm = () => {
                 title: formData.title,
                 description: formData.description,
                 formData: {
-                    priority: formData.priority,
                     department: formData.department,
                     additionalInfo: formData.additionalInfo
                 }
@@ -70,8 +68,8 @@ const RequestForm = () => {
     if (loading) {
         return (
             <div className="h-[60vh] flex flex-col items-center justify-center space-y-4">
-                <Loader2 className="h-10 w-10 text-indigo-600 animate-spin" />
-                <p className="text-gray-400 font-semibold uppercase tracking-widest text-[10px]">Secure Environment Protocol</p>
+                <Loader2 className="h-10 w-10 text-primary animate-spin" />
+                <p className="text-gray-400 font-normal uppercase tracking-widest text-[10px]">Secure Environment Protocol</p>
             </div>
         );
     }
@@ -84,21 +82,21 @@ const RequestForm = () => {
         >
             {/* Left side: Form */}
             <div className="lg:col-span-8 space-y-6">
-                <button onClick={() => navigate('/employee/new-request')} className="flex items-center space-x-2 text-gray-500 hover:text-indigo-600 transition-all group font-semibold text-xs uppercase tracking-wider">
+                <button onClick={() => navigate('/employee/new-request')} className="flex items-center space-x-2 text-content-secondary hover:text-primary transition-all group font-medium text-xs uppercase tracking-wider">
                     <ArrowLeft className="h-3.5 w-3.5 group-hover:-translate-x-1 transition-transform" />
                     <span>Cancel Initiation</span>
                 </button>
 
-                <div className="bg-white p-8 rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
+                <div className="bg-white p-8 rounded-2xl border border-border shadow-sm overflow-hidden">
                     <div className="mb-10">
-                        <h1 className="text-gray-900 font-semibold text-2xl tracking-tight leading-tight">{workflow.workflowName}</h1>
-                        <p className="text-sm text-gray-500 mt-2 leading-relaxed">{workflow.description}</p>
+                        <h1 className="text-content-primary font-semibold text-2xl tracking-tight leading-tight">{workflow.workflowName}</h1>
+                        <p className="text-sm text-content-secondary mt-2 leading-relaxed">{workflow.description}</p>
                     </div>
 
                     <form onSubmit={handleSubmit} className="space-y-8">
                         <div className="space-y-2">
-                            <label className="text-[11px] font-semibold text-gray-500 uppercase tracking-wider flex items-center space-x-2">
-                                <FileText className="h-3.5 w-3.5 text-indigo-500" />
+                            <label className="text-[11px] font-black text-content-secondary uppercase tracking-wider flex items-center space-x-2">
+                                <FileText className="h-3.5 w-3.5 text-primary" />
                                 <span>Request Identity</span>
                             </label>
                             <input
@@ -106,7 +104,7 @@ const RequestForm = () => {
                                 value={formData.title}
                                 onChange={(e) => setFormData({ ...formData, title: e.target.value })}
                                 placeholder="Enter a descriptive title..."
-                                className="w-full bg-gray-50 border border-gray-200 rounded-xl py-4 px-5 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all text-gray-900 placeholder:text-gray-400 font-medium text-base"
+                                className="w-full bg-gray-50 border border-border rounded-xl py-4 px-5 focus:outline-none focus:ring-2 focus:ring-primary/10 focus:border-primary transition-all text-content-primary placeholder:text-content-secondary/40 font-black text-sm"
                                 required
                             />
                         </div>
@@ -114,47 +112,34 @@ const RequestForm = () => {
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div className="space-y-6">
                                 <div className="space-y-2">
-                                    <label className="text-[11px] font-semibold text-gray-500 uppercase tracking-wider">Priority Protocol</label>
-                                    <select
-                                        value={formData.priority}
-                                        onChange={(e) => setFormData({ ...formData, priority: e.target.value })}
-                                        className="w-full bg-gray-50 border border-gray-200 rounded-xl py-4 px-5 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all text-gray-900 font-medium appearance-none cursor-pointer"
-                                    >
-                                        <option value="Low">Standard - Level 01</option>
-                                        <option value="Normal">Routine - Level 02</option>
-                                        <option value="High">Priority - Level 03</option>
-                                        <option value="Urgent">Critical - Level 04</option>
-                                    </select>
-                                </div>
-                                <div className="space-y-2">
-                                    <label className="text-[11px] font-semibold text-gray-500 uppercase tracking-wider">Execution Department</label>
+                                    <label className="text-[11px] font-normal text-content-secondary uppercase tracking-wider">Execution Department</label>
                                     <input
                                         type="text"
                                         value={formData.department}
                                         onChange={(e) => setFormData({ ...formData, department: e.target.value })}
                                         placeholder="e.g. Engineering, Product"
-                                        className="w-full bg-gray-50 border border-gray-200 rounded-xl py-4 px-5 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all text-gray-900 placeholder:text-gray-400 font-medium"
+                                        className="w-full bg-gray-50 border border-border rounded-xl py-4 px-5 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-content-primary placeholder:text-gray-400 font-medium"
                                     />
                                 </div>
                             </div>
 
                             <div className="space-y-2">
-                                <label className="text-[11px] font-semibold text-gray-500 uppercase tracking-wider">Strategic Context</label>
+                                <label className="text-[11px] font-semibold text-content-secondary uppercase tracking-wider">Strategic Context</label>
                                 <textarea
                                     value={formData.description}
                                     onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                                    className="w-full h-full min-h-[160px] bg-gray-50 border border-gray-200 rounded-xl py-4 px-5 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all text-gray-900 placeholder:text-gray-400 font-medium resize-none"
+                                    className="w-full h-full min-h-[160px] bg-gray-50 border border-border rounded-xl py-4 px-5 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-content-primary placeholder:text-gray-400 font-medium resize-none"
                                     placeholder="Provide detailed context for this request..."
                                     required
                                 />
                             </div>
                         </div>
 
-                        <div className="pt-6 border-t border-gray-100">
+                        <div className="pt-6 border-t border-border">
                             <button
                                 type="submit"
                                 disabled={submitting}
-                                className="w-full py-4 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-base shadow-sm hover:shadow-indigo-500/30 transition-all active:scale-[0.98] disabled:opacity-50 flex items-center justify-center space-x-3"
+                                className="w-full py-4 rounded-xl bg-primary hover:bg-hover text-white font-black text-xs uppercase tracking-widest shadow-sm hover:shadow-primary/20 transition-all active:scale-[0.98] disabled:opacity-50 flex items-center justify-center space-x-3"
                             >
                                 {submitting ? (
                                     <>
@@ -164,7 +149,7 @@ const RequestForm = () => {
                                 ) : (
                                     <>
                                         <Send className="h-5 w-5" />
-                                        <span className="uppercase tracking-widest text-xs font-bold">Dispatch to Pipeline</span>
+                                        <span className="uppercase tracking-widest text-xs font-medium">Dispatch to Pipeline</span>
                                     </>
                                 )}
                             </button>
@@ -175,13 +160,13 @@ const RequestForm = () => {
 
             {/* Right side: Sidebar info */}
             <div className="lg:col-span-4 space-y-6 mt-10 lg:mt-0">
-                <div className="bg-white p-8 rounded-2xl border border-gray-200 shadow-sm relative overflow-hidden">
+                <div className="bg-white p-8 rounded-2xl border border-border shadow-sm relative overflow-hidden">
                     <div className="absolute top-0 right-0 p-6 opacity-[0.02]">
-                        <GitBranch className="h-24 w-24 text-gray-900" />
+                        <GitBranch className="h-24 w-24 text-content-primary" />
                     </div>
 
                     <div className="relative z-10">
-                        <h3 className="flex items-center space-x-2 text-indigo-600 uppercase tracking-wider text-[10px] font-bold mb-8">
+                        <h3 className="flex items-center space-x-2 text-primary uppercase tracking-wider text-[10px] font-semibold mb-8">
                             <GitBranch className="h-3.5 w-3.5" />
                             <span>Verification Pipeline</span>
                         </h3>
@@ -190,16 +175,20 @@ const RequestForm = () => {
                             <div className="absolute left-[13px] top-6 bottom-6 w-px bg-gray-100 z-0" />
 
                             {[
-                                { id: '01', title: 'Submission', sub: 'Identity Validation', color: 'indigo' },
-                                { id: '02', title: 'Manager Review', sub: 'Operational Approval', color: 'orange' },
-                                { id: '03', title: 'Admin Approval', sub: 'Executive Clearance', color: 'purple' }
+                                { id: '01', title: 'Submission', sub: 'Identity Validation', color: 'primary' },
+                                ...((workflow?.nodes || workflow?.steps || []).filter(n => n.type === 'APPROVAL' || !n.type).map((n, i) => ({
+                                    id: `0${i + 2}`,
+                                    title: `${[].concat(n.approverRoles || n.approverRole || []).filter(Boolean).join(', ')} Review`,
+                                    sub: 'Approval Required',
+                                    color: i % 2 === 0 ? 'orange' : 'purple'
+                                })))
                             ].map((step, i) => (
                                 <div key={i} className="flex items-start space-x-5 pb-10 relative w-full">
                                     <div className={`h-7 w-7 min-w-[28px] rounded-lg bg-${step.color}-50 border border-${step.color}-100 flex items-center justify-center z-10 shadow-sm ring-4 ring-white`}>
                                         <span className={`text-[9px] font-bold text-${step.color}-600`}>{step.id}</span>
                                     </div>
                                     <div className="space-y-0.5">
-                                        <h4 className="text-xs font-semibold text-gray-900 uppercase tracking-tight">{step.title}</h4>
+                                        <h4 className="text-xs font-semibold text-content-primary uppercase tracking-tight">{step.title}</h4>
                                         <p className="text-[9px] text-gray-400 font-bold uppercase tracking-widest">{step.sub}</p>
                                     </div>
                                 </div>
@@ -210,7 +199,7 @@ const RequestForm = () => {
                                     <ShieldCheck className="h-4 w-4 text-emerald-600" />
                                 </div>
                                 <div className="space-y-0.5">
-                                    <h4 className="text-xs font-semibold text-gray-900 uppercase tracking-tight">Finalized</h4>
+                                    <h4 className="text-xs font-semibold text-content-primary uppercase tracking-tight">Finalized</h4>
                                     <p className="text-[9px] text-gray-400 font-bold uppercase tracking-widest">Asset Allocated</p>
                                 </div>
                             </div>
@@ -218,17 +207,17 @@ const RequestForm = () => {
                     </div>
                 </div>
 
-                <div className="bg-white p-6 rounded-2xl border border-gray-200 shadow-sm">
+                <div className="bg-white p-6 rounded-2xl border border-border shadow-sm">
                     <h3 className="text-[10px] font-bold flex items-center space-x-2 text-gray-400 uppercase tracking-widest mb-6">
                         <Mail className="h-3.5 w-3.5" />
                         <span>Security Credentials</span>
                     </h3>
                     <div className="flex items-center space-x-4">
-                        <div className="h-10 w-10 rounded-xl bg-indigo-600 flex items-center justify-center font-bold text-white shadow-md">
+                        <div className="h-10 w-10 rounded-xl bg-primary flex items-center justify-center font-semibold text-white shadow-md">
                             {user?.name?.[0]}
                         </div>
                         <div>
-                            <p className="text-sm font-semibold text-gray-900 leading-none tracking-tight">{user?.name}</p>
+                            <p className="text-sm font-semibold text-content-primary leading-none tracking-tight">{user?.name}</p>
                             <p className="text-[10px] text-gray-400 uppercase font-bold mt-1.5 tracking-wider italic">{user?.role}</p>
                         </div>
                     </div>

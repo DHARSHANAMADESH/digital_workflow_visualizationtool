@@ -10,8 +10,8 @@ const WorkflowPipeline = ({ metrics }) => {
             description: 'Total requests submitted',
             count: metrics?.employee_request || 0,
             icon: User,
-            color: 'text-blue-600',
-            bgColor: 'bg-blue-50',
+            color: 'text-primary',
+            bgColor: 'bg-background',
             borderColor: 'border-blue-200',
             shadowColor: 'shadow-blue-100'
         },
@@ -67,11 +67,11 @@ const WorkflowPipeline = ({ metrics }) => {
                             </div>
 
                             {/* Label & Description */}
-                            <h3 className="text-sm font-black text-gray-900 uppercase tracking-tight text-center">{stage.label}</h3>
+                            <h3 className="text-sm font-semibold text-content-primary uppercase tracking-tight text-center">{stage.label}</h3>
                             <p className="text-[10px] text-gray-400 font-bold uppercase tracking-widest mt-1 mb-2">{stage.description}</p>
 
                             {/* Count Badge */}
-                            <div className={`mt-auto px-4 py-1.5 rounded-full ${stage.bgColor} ${stage.color} text-lg font-black shadow-inner flex items-center justify-center min-w-[3rem]`}>
+                            <div className={`mt-auto px-4 py-1.5 rounded-full ${stage.bgColor} ${stage.color} text-lg font-semibold shadow-inner flex items-center justify-center min-w-[3rem]`}>
                                 {stage.count}
                             </div>
 

@@ -9,8 +9,8 @@ const DashboardLayout = () => {
 
     if (loading) {
         return (
-            <div className="min-h-screen flex items-center justify-center bg-[#F9FAFB]">
-                <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-indigo-600"></div>
+            <div className="min-h-screen flex items-center justify-center bg-background">
+                <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-primary"></div>
             </div>
         );
     }
@@ -20,7 +20,7 @@ const DashboardLayout = () => {
     }
 
     return (
-        <div className="flex min-h-screen bg-[#F9FAFB] font-sans text-gray-900 selection:bg-indigo-100 selection:text-indigo-900">
+        <div className="flex min-h-screen bg-background font-sans text-content-primary selection:bg-primary/20 selection:text-content-primary">
             {/* Global Sidebar */}
             <Sidebar />
 

@@ -31,9 +31,9 @@ const MonthlySubmissionsChart = ({ requests = [] }) => {
     const CustomTooltip = ({ active, payload, label }) => {
         if (active && payload && payload.length) {
             return (
-                <div className="bg-white border border-gray-200 p-3 rounded-lg shadow-lg">
-                    <p className="text-gray-500 text-xs mb-1 font-bold uppercase tracking-wider">{label}</p>
-                    <p className="text-indigo-700 font-bold">{`${payload[0].value} Submissions`}</p>
+                <div className="bg-white border border-border p-3 rounded-lg shadow-lg">
+                    <p className="text-content-secondary text-xs mb-1 font-bold uppercase tracking-wider">{label}</p>
+                    <p className="text-primary/40 font-bold">{`${payload[0].value} Submissions`}</p>
                 </div>
             );
         }

@@ -31,9 +31,9 @@ const SystemActivityChart = ({ requests = [] }) => {
     const CustomTooltip = ({ active, payload, label }) => {
         if (active && payload && payload.length) {
             return (
-                <div className="bg-[#0F172A] border border-white/10 p-4 rounded-2xl shadow-2xl backdrop-blur-xl">
-                    <p className="text-gray-400 text-[10px] mb-2 font-black uppercase tracking-[0.2em]">{label}</p>
-                    <p className="text-indigo-400 font-black text-lg tabular-nums">{`${payload[0].value} Directives`}</p>
+                <div className="bg-gray-900 border border-white/10 p-4 rounded-2xl shadow-2xl backdrop-blur-xl">
+                    <p className="text-gray-400 text-[10px] mb-2 font-normal uppercase tracking-[0.2em]">{label}</p>
+                    <p className="text-primary/40 font-semibold text-lg tabular-nums">{`${payload[0].value} Directives`}</p>
                 </div>
             );
         }

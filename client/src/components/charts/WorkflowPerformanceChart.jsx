@@ -47,10 +47,10 @@ const WorkflowPerformanceChart = ({ requests = [] }) => {
     const CustomTooltip = ({ active, payload, label }) => {
         if (active && payload && payload.length) {
             return (
-                <div className="bg-[#0F172A] border border-white/10 p-4 rounded-2xl shadow-2xl backdrop-blur-xl">
-                    <p className="text-gray-400 text-[10px] mb-2 font-black uppercase tracking-[0.2em]">{label}</p>
-                    <p className="text-white font-black text-lg tabular-nums">{`${payload[0].value} Hours`}</p>
-                    <p className="text-indigo-400 text-[8px] font-black uppercase tracking-widest mt-1">Avg Efficiency</p>
+                <div className="bg-gray-900 border border-white/10 p-4 rounded-2xl shadow-2xl backdrop-blur-xl">
+                    <p className="text-gray-400 text-[10px] mb-2 font-normal uppercase tracking-[0.2em]">{label}</p>
+                    <p className="text-white font-semibold text-lg tabular-nums">{`${payload[0].value} Hours`}</p>
+                    <p className="text-primary/40 text-[8px] font-normal uppercase tracking-widest mt-1">Avg Efficiency</p>
                 </div>
             );
         }
@@ -80,18 +80,18 @@ const WorkflowPerformanceChart = ({ requests = [] }) => {
                             tickLine={false}
                             axisLine={false}
                         />
-                        <Tooltip content={<CustomTooltip />} cursor={{ fill: 'rgba(99, 102, 241, 0.05)' }} />
+                        <Tooltip content={<CustomTooltip />} cursor={{ fill: 'rgba(20, 184, 166, 0.05)' }} />
                         <Bar
                             dataKey="avgTime"
-                            fill="#6366F1"
+                            fill="#14B8A6"
                             radius={[8, 8, 4, 4]}
                             barSize={32}
-                            className="hover:opacity-80 transition-opacity cursor-pointer shadow-lg shadow-indigo-500/20"
+                            className="hover:opacity-80 transition-opacity cursor-pointer shadow-lg shadow-primary/20"
                         />
                     </BarChart>
                 </ResponsiveContainer>
             ) : (
-                <div className="h-full flex items-center justify-center text-gray-500">
+                <div className="h-full flex items-center justify-center text-content-secondary">
                     No completion data recorded
                 </div>
             )}

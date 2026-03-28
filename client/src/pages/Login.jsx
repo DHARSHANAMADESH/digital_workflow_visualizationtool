@@ -57,16 +57,16 @@ const Login = () => {
                 layout
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
-                className="bg-white w-full max-w-md p-10 rounded-3xl shadow-xl border border-gray-100 relative overflow-hidden group transition-all duration-500"
+                className="bg-white w-full max-w-md p-10 rounded-3xl shadow-xl border border-border relative overflow-hidden group transition-all duration-500"
             >
                 {/* Decorative gradients */}
-                <div className="absolute -top-24 -right-24 w-64 h-64 bg-indigo-600/5 rounded-full blur-3xl group-hover:bg-indigo-600/10 transition-all duration-500" />
-                <div className="absolute -bottom-24 -left-24 w-64 h-64 bg-indigo-500/5 rounded-full blur-3xl group-hover:bg-indigo-500/10 transition-all duration-500" />
+                <div className="absolute -top-24 -right-24 w-64 h-64 bg-primary/5 rounded-full blur-3xl group-hover:bg-primary/10 transition-all duration-500" />
+                <div className="absolute -bottom-24 -left-24 w-64 h-64 bg-primary/5 rounded-full blur-3xl group-hover:bg-primary/10 transition-all duration-500" />
 
                 <div className="flex flex-col items-center mb-8 relative z-10">
                     <motion.div
                         whileHover={{ rotate: 15, scale: 1.1 }}
-                        className="p-3 bg-indigo-600 rounded-2xl mb-4 shadow-md active:scale-95 transition-transform duration-300"
+                        className="p-3 bg-primary rounded-2xl mb-4 shadow-md active:scale-95 transition-transform duration-300"
                     >
                         <Layers className="h-8 w-8 text-white" />
                     </motion.div>
@@ -74,11 +74,11 @@ const Login = () => {
                         key={isRegister ? 'register-title' : 'login-title'}
                         initial={{ opacity: 0, y: -10 }}
                         animate={{ opacity: 1, y: 0 }}
-                        className="text-2xl font-bold text-gray-900"
+                        className="text-3xl font-semibold text-content-primary tracking-tight"
                     >
                         {isRegister ? 'Create Account' : 'Welcome Back'}
                     </motion.h1>
-                    <p className="text-gray-500 mt-2 font-medium">
+                    <p className="text-content-secondary mt-2 font-medium">
                         {isRegister ? 'Join FlowStream enterprise' : 'FlowStream Management System'}
                     </p>
                 </div>
@@ -92,14 +92,14 @@ const Login = () => {
                                 exit={{ opacity: 0, height: 0 }}
                                 className="space-y-2 overflow-hidden"
                             >
-                                <label className="text-xs font-medium text-gray-500 flex items-center space-x-2 uppercase tracking-wider">
+                                <label className="text-[10px] font-normal text-gray-400 uppercase tracking-widest block mb-2 px-1">
                                     <UserIcon className="h-4 w-4" />
                                     <span>Full Name</span>
                                 </label>
                                 <input
                                     type="text"
                                     required
-                                    className="w-full bg-gray-50 border border-gray-200 rounded-xl py-3 px-4 focus:outline-none focus:border-indigo-500 transition-all placeholder:text-gray-400 text-gray-900"
+                                    className="w-full bg-background border border-border rounded-xl py-3 px-4 focus:outline-none focus:border-primary transition-all placeholder:text-content-secondary/40 text-content-primary"
                                     placeholder="Enter your full name"
                                     value={formData.name}
                                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
@@ -109,14 +109,14 @@ const Login = () => {
                     </AnimatePresence>
 
                     <div className="space-y-2">
-                        <label className="text-xs font-medium text-gray-500 flex items-center space-x-2 uppercase tracking-wider">
+                        <label className="text-xs font-medium text-content-secondary flex items-center space-x-2 uppercase tracking-wider">
                             <Mail className="h-4 w-4" />
                             <span>Email Address</span>
                         </label>
                         <input
                             type="email"
                             required
-                            className="w-full bg-gray-50 border border-gray-200 rounded-xl py-3 px-4 focus:outline-none focus:border-indigo-500 transition-all placeholder:text-gray-400 text-gray-900"
+                            className="w-full bg-background border border-border rounded-xl py-3 px-4 focus:outline-none focus:border-primary transition-all placeholder:text-content-secondary/40 text-content-primary"
                             placeholder="name@company.com"
                             value={formData.email}
                             onChange={(e) => setFormData({ ...formData, email: e.target.value })}
@@ -125,14 +125,14 @@ const Login = () => {
 
                     <div className="grid grid-cols-1 md:grid-cols-1 gap-5">
                         <div className="space-y-2">
-                            <label className="text-xs font-medium text-gray-500 flex items-center space-x-2 uppercase tracking-wider">
+                            <label className="text-xs font-medium text-content-secondary flex items-center space-x-2 uppercase tracking-wider">
                                 <Lock className="h-4 w-4" />
                                 <span>Password</span>
                             </label>
                             <input
                                 type="password"
                                 required
-                                className="w-full bg-gray-50 border border-gray-200 rounded-xl py-3 px-4 focus:outline-none focus:border-indigo-500 transition-all placeholder:text-gray-400 text-gray-900"
+                                className="w-full bg-background border border-border rounded-xl py-3 px-4 focus:outline-none focus:border-primary transition-all placeholder:text-content-secondary/40 text-content-primary"
                                 placeholder="••••••••"
                                 value={formData.password}
                                 onChange={(e) => setFormData({ ...formData, password: e.target.value })}
@@ -147,14 +147,14 @@ const Login = () => {
                                     exit={{ opacity: 0, height: 0 }}
                                     className="space-y-2 overflow-hidden"
                                 >
-                                    <label className="text-xs font-medium text-gray-500 flex items-center space-x-2 uppercase tracking-wider">
+                                    <label className="text-xs font-medium text-content-secondary flex items-center space-x-2 uppercase tracking-wider">
                                         <Lock className="h-4 w-4" />
                                         <span>Confirm Password</span>
                                     </label>
                                     <input
                                         type="password"
                                         required
-                                        className="w-full bg-gray-50 border border-gray-200 rounded-xl py-3 px-4 focus:outline-none focus:border-indigo-500 transition-all placeholder:text-gray-400 text-gray-900"
+                                        className="w-full bg-background border border-border rounded-xl py-3 px-4 focus:outline-none focus:border-primary transition-all placeholder:text-content-secondary/40 text-content-primary"
                                         placeholder="••••••••"
                                         value={formData.confirmPassword}
                                         onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
@@ -165,18 +165,20 @@ const Login = () => {
                     </div>
 
                     <div className="space-y-2">
-                        <label className="text-xs font-medium text-gray-500 flex items-center space-x-2 uppercase tracking-wider">
+                        <label className="text-xs font-medium text-content-secondary flex items-center space-x-2 uppercase tracking-wider">
                             <UserIcon className="h-4 w-4" />
                             <span>System Role</span>
                         </label>
                         <select
-                            className="w-full bg-gray-50 border border-gray-200 rounded-xl py-3 px-4 focus:outline-none focus:border-indigo-500 transition-all appearance-none cursor-pointer text-gray-900 font-medium"
+                            className="w-full bg-background border border-border rounded-xl py-3 px-4 focus:outline-none focus:border-primary transition-all appearance-none cursor-pointer text-content-primary font-medium"
                             value={formData.role}
                             onChange={(e) => setFormData({ ...formData, role: e.target.value })}
                         >
                             <option value="Employee">Employee</option>
                             <option value="Manager">Manager</option>
                             <option value="Admin">Admin</option>
+                            <option value="Finance">Finance</option>
+                            <option value="IT">IT</option>
                         </select>
                     </div>
 
@@ -199,7 +201,7 @@ const Login = () => {
                         <button
                             type="button"
                             onClick={toggleMode}
-                            className="text-sm text-gray-500 hover:text-indigo-700 font-medium transition-colors flex items-center justify-center space-x-2 mx-auto"
+                            className="text-sm text-content-secondary hover:text-primary font-bold transition-colors flex items-center justify-center space-x-2 mx-auto"
                         >
                             <span>{isRegister ? 'Already have an account? Sign In' : "Don't have an account? Create one"}</span>
                             <ArrowRight className="h-3 w-3" />

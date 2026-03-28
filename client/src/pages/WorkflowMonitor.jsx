@@ -37,10 +37,10 @@ const WorkflowMonitor = () => {
     };
 
     const columns = [
-        { id: 'submitted', title: 'Submitted', color: 'indigo' },
+        { id: 'submitted', title: 'Submitted', color: 'primary' },
         { id: 'manager', title: 'Manager Review', color: 'amber' },
         { id: 'admin', title: 'Admin Approval', color: 'rose' },
-        { id: 'completed', title: 'Completed', color: 'emerald' }
+        { id: 'completed', title: 'Completed', color: 'secondary' }
     ];
 
     const getColumnRequests = (colId) => {
@@ -62,7 +62,7 @@ const WorkflowMonitor = () => {
     if (loading) {
         return (
             <div className="flex items-center justify-center min-h-[500px]">
-                <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-indigo-600"></div>
+                <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
             </div>
         );
     }
@@ -71,8 +71,8 @@ const WorkflowMonitor = () => {
         <div className="space-y-8 pb-10">
             <header className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div>
-                    <h1 className="text-3xl font-black text-gray-900 tracking-tighter">Workflow Monitor</h1>
-                    <p className="text-gray-400 font-bold text-sm mt-1">Cross-pipeline visualization board</p>
+                    <h1 className="text-3xl font-semibold text-content-primary tracking-tighter">Workflow Monitor</h1>
+                    <p className="text-gray-400 font-normal text-sm mt-1">Cross-pipeline visualization board</p>
                 </div>
 
                 <div className="flex items-center space-x-3">
@@ -83,10 +83,10 @@ const WorkflowMonitor = () => {
                             placeholder="Filter board..."
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
-                            className="pl-10 pr-4 py-2 bg-white border border-gray-100 rounded-xl focus:outline-none focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 font-bold text-sm w-64 shadow-sm"
+                            className="pl-10 pr-4 py-2 bg-white border border-border rounded-xl focus:outline-none focus:ring-4 focus:ring-primary/10 focus:border-primary font-bold text-sm w-64 shadow-sm"
                         />
                     </div>
-                    <button className="p-2.5 bg-white border border-gray-100 rounded-xl text-gray-400 hover:text-indigo-600 shadow-sm transition-all">
+                    <button className="p-2.5 bg-white border border-border rounded-xl text-gray-400 hover:text-primary shadow-sm transition-all">
                         <Filter className="h-5 w-5" />
                     </button>
                 </div>
@@ -94,13 +94,19 @@ const WorkflowMonitor = () => {
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 h-[calc(100vh-250px)] min-h-[600px]">
                 {columns.map((col) => (
-                    <div key={col.id} className="flex flex-col h-full bg-gray-50/50 rounded-[32px] border border-gray-100/50 p-4">
+                    <div key={col.id} className="flex flex-col h-full bg-gray-50/50 rounded-[32px] border border-border/50 p-4">
                         <div className="flex items-center justify-between px-4 py-4 mb-4">
                             <div className="flex items-center space-x-3">
-                                <span className={`h-2.5 w-2.5 rounded-full bg-${col.color}-500 shadow-[0_0_10px_rgba(var(--${col.color}-500),0.3)]`} />
-                                <h3 className="font-black text-sm text-gray-900 uppercase tracking-widest">{col.title}</h3>
+                                {col.color === 'primary' ? (
+                                    <span className="h-2.5 w-2.5 rounded-full bg-primary shadow-[0_0_10px_rgba(20,184,166,0.3)]" />
+                                ) : col.color === 'secondary' ? (
+                                    <span className="h-2.5 w-2.5 rounded-full bg-secondary shadow-[0_0_10px_rgba(16,185,129,0.3)]" />
+                                ) : (
+                                    <span className={`h-2.5 w-2.5 rounded-full bg-${col.color}-500 shadow-[0_0_10px_rgba(var(--${col.color}-500),0.3)]`} />
+                                )}
+                                <h3 className="font-bold text-xs text-content-primary uppercase tracking-widest">{col.title}</h3>
                             </div>
-                            <span className="bg-white px-2.5 py-1 rounded-lg border border-gray-100 text-[10px] font-black text-gray-400 shadow-sm">
+                            <span className="bg-white px-2.5 py-1 rounded-lg border border-border text-[10px] font-normal text-gray-400 shadow-sm">
                                 {getColumnRequests(col.id).length}
                             </span>
                         </div>
@@ -113,29 +119,29 @@ const WorkflowMonitor = () => {
                                     animate={{ opacity: 1, y: 0 }}
                                     transition={{ delay: idx * 0.05 }}
                                     onClick={() => navigate(`/employee/requests/${req._id}`)}
-                                    className="bg-white p-5 rounded-2xl border border-gray-100 shadow-sm hover:shadow-md hover:border-indigo-100 cursor-pointer transition-all group"
+                                    className="bg-white p-5 rounded-2xl border border-border shadow-sm hover:shadow-md hover:border-primary/30 cursor-pointer transition-all group"
                                 >
                                     <div className="flex justify-between items-start mb-3">
-                                        <span className="text-[10px] font-black text-indigo-400 uppercase tracking-widest">
+                                        <span className="text-[10px] font-black text-primary/40 uppercase tracking-widest">
                                             #{req._id.slice(-6).toUpperCase()}
                                         </span>
                                         <StatusBadge status={req.status} className="text-[9px] px-2 py-0.5" />
                                     </div>
 
-                                    <h4 className="font-black text-gray-900 text-sm mb-4 leading-tight group-hover:text-indigo-600 transition-colors">
+                                    <h4 className="font-semibold text-content-primary text-sm mb-4 leading-tight group-hover:text-primary transition-colors">
                                         {req.title}
                                     </h4>
 
                                     <div className="flex items-center justify-between pt-4 border-t border-gray-50">
                                         <div className="flex items-center space-x-2">
-                                            <div className="h-6 w-6 rounded-lg bg-indigo-50 flex items-center justify-center">
-                                                <User className="h-3 w-3 text-indigo-400" />
+                                            <div className="h-6 w-6 rounded-lg bg-background flex items-center justify-center">
+                                                <User className="h-3 w-3 text-primary/40" />
                                             </div>
-                                            <span className="text-[10px] font-black text-gray-400">{req.requesterId?.name || 'User'}</span>
+                                            <span className="text-[10px] font-normal text-gray-400">{req.requesterId?.name || 'User'}</span>
                                         </div>
                                         <div className="flex items-center space-x-1 text-gray-400">
                                             <Clock className="h-3 w-3" />
-                                            <span className="text-[9px] font-black">
+                                            <span className="text-[9px] font-normal">
                                                 {new Date(req.createdAt).toLocaleDateString([], { month: 'short', day: 'numeric' })}
                                             </span>
                                         </div>
@@ -144,7 +150,7 @@ const WorkflowMonitor = () => {
                             ))}
 
                             {getColumnRequests(col.id).length === 0 && (
-                                <div className="flex flex-col items-center justify-center py-20 opacity-20 border border-gray-100 border-dashed rounded-3xl">
+                                <div className="flex flex-col items-center justify-center py-20 opacity-20 border border-border border-dashed rounded-3xl">
                                     <p className="text-gray-400 text-[9px] font-black uppercase tracking-widest italic text-center px-4">
                                         Queue Empty
                                     </p>

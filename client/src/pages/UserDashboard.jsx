@@ -53,7 +53,7 @@ const UserDashboard = () => {
     if (loading) {
         return (
             <div className="flex items-center justify-center min-h-[400px]">
-                <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-indigo-600"></div>
+                <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-primary"></div>
             </div>
         );
     }
@@ -63,10 +63,10 @@ const UserDashboard = () => {
             {/* Header Section */}
             <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4">
                 <div>
-                    <h1 className="text-2xl font-semibold text-gray-900 tracking-tight">Flow Insights</h1>
-                    <p className="text-sm text-gray-500 mt-1">Overview of your request activity</p>
+                    <h1 className="text-2xl font-semibold text-content-primary tracking-tight">Flow Insights</h1>
+                    <p className="text-sm text-content-secondary mt-1">Overview of your request activity</p>
                 </div>
-                <div className="flex items-center space-x-2 bg-white border border-gray-200 shadow-sm px-3 py-1.5 rounded-full">
+                <div className="flex items-center space-x-2 bg-white border border-border shadow-sm px-3 py-1.5 rounded-full">
                     <span className="w-2 h-2 rounded-full bg-emerald-500 animate-[pulse_2s_cubic-bezier(0.4,0,0.6,1)_infinite]"></span>
                     <span className="text-xs font-semibold text-gray-600 uppercase tracking-widest">Live Syncing</span>
                 </div>
@@ -77,7 +77,7 @@ const UserDashboard = () => {
                 {stats.map((stat, i) => (
                     <div
                         key={i}
-                        className="bg-white p-5 rounded-xl border border-gray-200 shadow-sm flex flex-col justify-between"
+                        className="bg-white p-5 rounded-xl border border-border shadow-sm flex flex-col justify-between"
                     >
                         <div className="flex items-center justify-between mb-4">
                             <div className={`p-2 rounded-lg ${stat.bg}`}>
@@ -85,22 +85,22 @@ const UserDashboard = () => {
                             </div>
                         </div>
                         <div>
-                            <p className="text-2xl font-semibold text-gray-900 leading-tight tracking-tight">{stat.value}</p>
-                            <p className="text-[11px] font-medium text-gray-500 uppercase tracking-wider mt-1">{stat.label}</p>
+                            <p className="text-2xl font-semibold text-content-primary leading-tight tracking-tight">{stat.value}</p>
+                            <p className="text-[11px] font-medium text-content-secondary uppercase tracking-wider mt-1">{stat.label}</p>
                         </div>
                     </div>
                 ))}
             </div>
 
             {/* Recent Requests Table */}
-            <div className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
-                <div className="px-6 py-5 border-b border-gray-200">
-                    <h2 className="text-sm font-semibold text-gray-900 tracking-tight">Recent Requests</h2>
+            <div className="bg-white rounded-xl border border-border shadow-sm overflow-hidden">
+                <div className="px-6 py-5 border-b border-border">
+                    <h2 className="text-sm font-semibold text-content-primary tracking-tight">Recent Requests</h2>
                 </div>
 
                 <div className="overflow-x-auto">
                     <table className="w-full text-sm text-left">
-                        <thead className="bg-[#F9FAFB] border-b border-gray-200 text-gray-500 font-medium text-xs uppercase tracking-wider">
+                        <thead className="bg-gray-50 border-b border-border text-content-secondary font-medium text-xs uppercase tracking-wider">
                             <tr>
                                 <th className="px-6 py-3 font-semibold">Request ID</th>
                                 <th className="px-6 py-3 font-semibold">Title</th>
@@ -114,12 +114,12 @@ const UserDashboard = () => {
                                 requests.slice(0, 10).map((req) => (
                                     <tr
                                         key={req._id}
-                                        className={`hover:bg-gray-50/50 transition-colors cursor-pointer ${selectedRequest?._id === req._id ? 'bg-indigo-50/50' : ''}`}
+                                        className={`hover:bg-gray-50/50 transition-colors cursor-pointer ${selectedRequest?._id === req._id ? 'bg-background/50' : ''}`}
                                         onClick={() => navigate(`/employee/requests/${req._id}`)}
                                     >
-                                        <td className="px-6 py-4 text-gray-500 font-mono text-xs">#{req._id.slice(-6).toUpperCase()}</td>
-                                        <td className="px-6 py-4 text-gray-900 font-medium text-sm">{req.title}</td>
-                                        <td className="px-6 py-4 text-gray-500 text-sm">
+                                        <td className="px-6 py-4 text-content-secondary font-mono text-xs">#{req._id.slice(-6).toUpperCase()}</td>
+                                        <td className="px-6 py-4 text-content-primary font-medium text-sm">{req.title}</td>
+                                        <td className="px-6 py-4 text-content-secondary text-sm">
                                             {req.templateId?.workflowName || 'General'}
                                         </td>
                                         <td className="px-6 py-4">
@@ -130,14 +130,14 @@ const UserDashboard = () => {
                                                 {req.status === 'approved' ? 'Approved' : req.status === 'rejected' ? 'Rejected' : 'Pending'}
                                             </span>
                                         </td>
-                                        <td className="px-6 py-4 text-gray-500 text-sm">
+                                        <td className="px-6 py-4 text-content-secondary text-sm">
                                             {new Date(req.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
                                         </td>
                                     </tr>
                                 ))
                             ) : (
                                 <tr>
-                                    <td colSpan="5" className="px-6 py-12 text-center text-gray-500 text-sm">
+                                    <td colSpan="5" className="px-6 py-12 text-center text-content-secondary text-sm">
                                         No requests found. Create one to get started.
                                     </td>
                                 </tr>
@@ -148,13 +148,13 @@ const UserDashboard = () => {
             </div>
 
             {/* Request Categories Breakdown */}
-            <div className="mt-8 bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
-                <div className="px-6 py-5 border-b border-gray-200 flex items-center justify-between">
+            <div className="mt-8 bg-white rounded-xl border border-border shadow-sm overflow-hidden">
+                <div className="px-6 py-5 border-b border-border flex items-center justify-between">
                     <div>
-                        <h2 className="text-sm font-semibold text-gray-900 tracking-tight">Request Categories</h2>
+                        <h2 className="text-sm font-semibold text-content-primary tracking-tight">Request Categories</h2>
                         <p className="text-[10px] text-gray-400 font-medium uppercase tracking-wider mt-0.5">Frequency by instance type</p>
                     </div>
-                    <div className="bg-indigo-50 px-2 py-1 rounded text-[10px] font-bold text-indigo-600 uppercase tracking-widest">
+                    <div className="bg-background px-2 py-1 rounded text-[10px] font-bold text-primary uppercase tracking-widest">
                         Total Types: {categoryStats.length}
                     </div>
                 </div>
@@ -169,11 +169,11 @@ const UserDashboard = () => {
                                     <div key={index} className="space-y-2">
                                         <div className="flex items-center justify-between text-sm">
                                             <span className="font-semibold text-gray-700">{item.label}</span>
-                                            <span className="font-bold text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded text-xs">{item.value}</span>
+                                            <span className="font-bold text-primary bg-background px-2 py-0.5 rounded text-xs">{item.value}</span>
                                         </div>
                                         <div className="h-2 w-full bg-gray-50 rounded-full overflow-hidden">
                                             <div
-                                                className="h-full bg-indigo-500 rounded-full transition-all duration-1000 ease-out"
+                                                className="h-full bg-primary rounded-full transition-all duration-1000 ease-out"
                                                 style={{ width: `${percentage}%` }}
                                             />
                                         </div>

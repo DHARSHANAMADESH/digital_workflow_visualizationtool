@@ -38,7 +38,6 @@ const ManagerRequests = () => {
         format: 'PDF',
         systemModule: '',
         issueType: 'Bug',
-        priority: 'Medium',
         description: ''
     });
 
@@ -91,7 +90,7 @@ const ManagerRequests = () => {
             setFormData({
                 title: '', softwareName: '', employeeName: '', department: '',
                 reason: '', reportType: '', dateRange: '', format: 'PDF',
-                systemModule: '', issueType: 'Bug', priority: 'Medium', description: ''
+                systemModule: '', issueType: 'Bug', description: ''
             });
         } catch (error) {
             toast.error(error.message || 'Transmission failure');
@@ -119,18 +118,18 @@ const ManagerRequests = () => {
             id: 'Software',
             name: 'Software / System Access',
             icon: Shield,
-            color: 'text-indigo-600',
-            bg: 'bg-indigo-50',
-            border: 'border-indigo-100',
+            color: 'text-primary',
+            bg: 'bg-background',
+            border: 'border-primary/20',
             description: 'Request access to primary software tools or internal secure systems.'
         },
         {
             id: 'Data',
             name: 'Data / Report Request',
             icon: Database,
-            color: 'text-emerald-600',
-            bg: 'bg-emerald-50',
-            border: 'border-emerald-100',
+            color: 'text-secondary',
+            bg: 'bg-background',
+            border: 'border-secondary/20',
             description: 'Request advanced datasets, monthly reports, or custom analytics exports.'
         },
         {
@@ -138,7 +137,7 @@ const ManagerRequests = () => {
             name: 'System Issue / Support',
             icon: Cpu,
             color: 'text-rose-600',
-            bg: 'bg-rose-50',
+            bg: 'bg-rose-50/50',
             border: 'border-rose-100',
             description: 'Report architectural bugs or request technical system reinforcements.'
         }
@@ -147,8 +146,8 @@ const ManagerRequests = () => {
     if (loading) {
         return (
             <div className="h-[60vh] flex flex-col items-center justify-center space-y-6">
-                <Loader2 className="h-10 w-10 text-indigo-600 animate-spin" />
-                <p className="text-gray-400 font-bold uppercase tracking-[0.2em] text-[10px]">Synchronizing Matrix</p>
+                <Loader2 className="h-10 w-10 text-primary animate-spin" />
+                <p className="text-gray-400 font-normal uppercase tracking-[0.2em] text-[10px]">Synchronizing Matrix</p>
             </div>
         );
     }
@@ -156,14 +155,14 @@ const ManagerRequests = () => {
     return (
         <div className="max-w-7xl mx-auto space-y-10 pb-20">
             {/* Header section (Light SaaS Style) */}
-            <div className="bg-white p-8 rounded-3xl shadow-sm border border-gray-100 flex items-center justify-between">
+            <div className="bg-white p-8 rounded-3xl shadow-sm border border-border flex items-center justify-between">
                 <div>
-                    <h1 className="text-3xl font-bold text-gray-900 tracking-tight">Manager Request Portal</h1>
-                    <p className="text-gray-500 mt-1 font-medium">Coordinate with system administrators to optimize your workflow trajectory.</p>
+                    <h1 className="text-3xl font-semibold text-content-primary tracking-tight">Manager Request Portal</h1>
+                    <p className="text-content-secondary mt-1 font-medium">Coordinate with system administrators to optimize your workflow trajectory.</p>
                 </div>
-                <div className="bg-gray-50 px-4 py-2 rounded-xl border border-gray-100 flex items-center space-x-3">
+                <div className="bg-gray-50 px-4 py-2 rounded-xl border border-border flex items-center space-x-3">
                     <div className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse"></div>
-                    <span className="text-[10px] font-bold text-gray-500 uppercase tracking-widest">Admin Pipeline Active</span>
+                    <span className="text-[10px] font-normal text-content-secondary uppercase tracking-widest">Admin Pipeline Active</span>
                 </div>
             </div>
 
@@ -175,14 +174,14 @@ const ManagerRequests = () => {
                         whileHover={{ y: -5, scale: 1.02 }}
                         whileTap={{ scale: 0.98 }}
                         onClick={() => setActiveForm(type.id)}
-                        className={`text-left bg-white p-8 rounded-[32px] border ${activeForm === type.id ? 'ring-2 ring-indigo-600 border-indigo-200 shadow-lg shadow-indigo-100' : 'border-gray-100 shadow-sm'} transition-all group`}
+                        className={`text-left bg-white p-8 rounded-[32px] border ${activeForm === type.id ? 'ring-2 ring-primary border-primary shadow-lg shadow-primary/10' : 'border-border shadow-sm'} transition-all group`}
                     >
                         <div className={`h-14 w-14 rounded-2xl ${type.bg} flex items-center justify-center mb-6 border ${type.border} transition-transform group-hover:rotate-6`}>
                             <type.icon className={`h-7 w-7 ${type.color}`} />
                         </div>
-                        <h3 className="text-xl font-bold text-gray-900 mb-3">{type.name}</h3>
-                        <p className="text-sm text-gray-500 leading-relaxed mb-6">{type.description}</p>
-                        <div className="flex items-center text-xs font-bold text-indigo-600 uppercase tracking-widest group-hover:translate-x-1 transition-transform">
+                        <h3 className="text-xl font-semibold text-content-primary mb-3">{type.name}</h3>
+                        <p className="text-sm text-content-secondary leading-relaxed mb-6">{type.description}</p>
+                        <div className="flex items-center text-xs font-bold text-primary uppercase tracking-widest group-hover:translate-x-1 transition-transform">
                             <span>Initiate Protocol</span>
                             <ChevronRight className="h-4 w-4 ml-2" />
                         </div>
@@ -200,15 +199,15 @@ const ManagerRequests = () => {
                                 initial={{ opacity: 0, scale: 0.98 }}
                                 animate={{ opacity: 1, scale: 1 }}
                                 exit={{ opacity: 0, scale: 0.98 }}
-                                className="bg-white p-10 md:p-14 rounded-[48px] border border-gray-100 shadow-sm ring-1 ring-black/5"
+                                className="bg-white p-10 md:p-14 rounded-[48px] border border-border shadow-sm ring-1 ring-black/5"
                             >
                                 <div className="flex items-center justify-between mb-12">
                                     <div className="flex items-center space-x-5">
-                                        <div className="h-12 w-12 rounded-2xl bg-indigo-50 flex items-center justify-center border border-indigo-100 shadow-inner">
-                                            <Plus className="h-6 w-6 text-indigo-600" />
+                                        <div className="h-12 w-12 rounded-2xl bg-background flex items-center justify-center border border-primary/20 shadow-inner">
+                                            <Plus className="h-6 w-6 text-primary" />
                                         </div>
                                         <div>
-                                            <h2 className="text-2xl font-bold text-gray-900 tracking-tight leading-none">New {activeForm} Request</h2>
+                                            <h2 className="text-2xl font-semibold text-content-primary tracking-tight leading-none">New {activeForm} Request</h2>
                                             <p className="text-gray-400 text-xs font-medium mt-1 uppercase tracking-widest">Administrative Authorization Route</p>
                                         </div>
                                     </div>
@@ -217,7 +216,7 @@ const ManagerRequests = () => {
                                             setActiveForm(null);
                                             setSelectedFile(null);
                                         }}
-                                        className="bg-gray-50 text-[10px] font-black text-gray-400 uppercase tracking-widest px-4 py-2 rounded-xl hover:bg-rose-50 hover:text-rose-600 transition-all border border-gray-100"
+                                        className="bg-gray-50 text-[10px] font-black text-gray-400 uppercase tracking-widest px-4 py-2 rounded-xl hover:bg-rose-50 hover:text-rose-600 transition-all border border-border"
                                     >
                                         Cancel Request
                                     </button>
@@ -226,13 +225,13 @@ const ManagerRequests = () => {
                                 <form onSubmit={handleSubmit} className="space-y-8">
                                     {/* Common Title Field */}
                                     <div className="space-y-2">
-                                        <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest ml-1">Request Summary</label>
+                                        <label className="text-[10px] font-normal text-gray-400 uppercase tracking-widest ml-1">Request Summary</label>
                                         <input
                                             type="text"
                                             value={formData.title}
                                             onChange={(e) => setFormData({ ...formData, title: e.target.value })}
                                             placeholder="Briefly describe the objective..."
-                                            className="w-full bg-gray-50 border border-gray-100 rounded-2xl py-4 px-6 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all text-gray-900 font-semibold"
+                                            className="w-full bg-gray-50 border border-border rounded-2xl py-4 px-6 focus:outline-none focus:ring-2 focus:ring-primary/10 focus:border-primary transition-all text-content-primary font-black text-sm placeholder:text-content-secondary/40"
                                             required
                                         />
                                     </div>
@@ -241,24 +240,24 @@ const ManagerRequests = () => {
                                         {activeForm === 'Software' && (
                                             <>
                                                 <div className="space-y-2">
-                                                    <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest ml-1">System Architecture</label>
+                                                    <label className="text-[10px] font-normal text-gray-400 uppercase tracking-widest ml-1">System Architecture</label>
                                                     <input
                                                         type="text"
                                                         value={formData.softwareName}
                                                         onChange={(e) => setFormData({ ...formData, softwareName: e.target.value })}
                                                         placeholder="Software / System Name"
-                                                        className="w-full bg-gray-50 border border-gray-100 rounded-2xl py-4 px-6 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all text-gray-900 font-semibold"
+                                                        className="w-full bg-gray-50 border border-border rounded-2xl py-4 px-6 focus:outline-none focus:ring-2 focus:ring-primary/10 focus:border-primary transition-all text-content-primary font-black text-sm placeholder:text-content-secondary/40"
                                                         required
                                                     />
                                                 </div>
                                                 <div className="space-y-2">
-                                                    <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest ml-1">Target Personnel (Optional)</label>
+                                                    <label className="text-[10px] font-normal text-gray-400 uppercase tracking-widest ml-1">Target Personnel (Optional)</label>
                                                     <input
                                                         type="text"
                                                         value={formData.employeeName}
                                                         onChange={(e) => setFormData({ ...formData, employeeName: e.target.value })}
                                                         placeholder="Employee Name"
-                                                        className="w-full bg-gray-50 border border-gray-100 rounded-2xl py-4 px-6 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all text-gray-900 font-semibold"
+                                                        className="w-full bg-gray-50 border border-border rounded-2xl py-4 px-6 focus:outline-none focus:ring-2 focus:ring-primary/10 focus:border-primary transition-all text-content-primary font-black text-sm placeholder:text-content-secondary/40"
                                                     />
                                                 </div>
                                             </>
@@ -267,22 +266,22 @@ const ManagerRequests = () => {
                                         {activeForm === 'Data' && (
                                             <>
                                                 <div className="space-y-2">
-                                                    <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest ml-1">Report Specification</label>
+                                                    <label className="text-[10px] font-normal text-gray-400 uppercase tracking-widest ml-1">Report Specification</label>
                                                     <input
                                                         type="text"
                                                         value={formData.reportType}
                                                         onChange={(e) => setFormData({ ...formData, reportType: e.target.value })}
                                                         placeholder="e.g. Monthly Expense Analysis"
-                                                        className="w-full bg-gray-50 border border-gray-100 rounded-2xl py-4 px-6 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all text-gray-900 font-semibold"
+                                                        className="w-full bg-gray-50 border border-border rounded-2xl py-4 px-6 focus:outline-none focus:ring-2 focus:ring-primary/10 focus:border-primary transition-all text-content-primary font-black text-sm placeholder:text-content-secondary/40"
                                                         required
                                                     />
                                                 </div>
                                                 <div className="space-y-2">
-                                                    <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest ml-1">Output Format</label>
+                                                    <label className="text-[10px] font-normal text-gray-400 uppercase tracking-widest ml-1">Output Format</label>
                                                     <select
                                                         value={formData.format}
                                                         onChange={(e) => setFormData({ ...formData, format: e.target.value })}
-                                                        className="w-full bg-gray-50 border border-gray-100 rounded-2xl py-4 px-6 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all text-gray-900 font-semibold cursor-pointer"
+                                                        className="w-full bg-gray-50 border border-border rounded-2xl py-4 px-6 focus:outline-none focus:ring-2 focus:ring-primary/10 focus:border-primary transition-all text-content-primary font-black text-sm placeholder:text-content-secondary/40 cursor-pointer"
                                                     >
                                                         <option value="PDF">Portable Document Format (.pdf)</option>
                                                         <option value="Excel">Microsoft Excel (.xlsx)</option>
@@ -295,22 +294,22 @@ const ManagerRequests = () => {
                                         {activeForm === 'Support' && (
                                             <>
                                                 <div className="space-y-2">
-                                                    <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest ml-1">Component Module</label>
+                                                    <label className="text-[10px] font-normal text-gray-400 uppercase tracking-widest ml-1">Component Module</label>
                                                     <input
                                                         type="text"
                                                         value={formData.systemModule}
                                                         onChange={(e) => setFormData({ ...formData, systemModule: e.target.value })}
                                                         placeholder="e.g. Authentication Gateway"
-                                                        className="w-full bg-gray-50 border border-gray-100 rounded-2xl py-4 px-6 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all text-gray-900 font-semibold"
+                                                        className="w-full bg-gray-50 border border-border rounded-2xl py-4 px-6 focus:outline-none focus:ring-2 focus:ring-primary/10 focus:border-primary transition-all text-content-primary font-black text-sm placeholder:text-content-secondary/40"
                                                         required
                                                     />
                                                 </div>
                                                 <div className="space-y-2">
-                                                    <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest ml-1">Severity / Issue Type</label>
+                                                    <label className="text-[10px] font-normal text-gray-400 uppercase tracking-widest ml-1">Severity / Issue Type</label>
                                                     <select
                                                         value={formData.issueType}
                                                         onChange={(e) => setFormData({ ...formData, issueType: e.target.value })}
-                                                        className="w-full bg-gray-50 border border-gray-100 rounded-2xl py-4 px-6 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all text-gray-900 font-semibold cursor-pointer"
+                                                        className="w-full bg-gray-50 border border-border rounded-2xl py-4 px-6 focus:outline-none focus:ring-2 focus:ring-primary/10 focus:border-primary transition-all text-content-primary font-black text-sm placeholder:text-content-secondary/40 cursor-pointer"
                                                     >
                                                         <option value="Bug">Technical Defect (Bug)</option>
                                                         <option value="Error">System Termination (Error)</option>
@@ -322,53 +321,39 @@ const ManagerRequests = () => {
                                         )}
 
                                         <div className="space-y-2">
-                                            <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest ml-1">Organizational Unit</label>
+                                            <label className="text-[10px] font-normal text-gray-400 uppercase tracking-widest ml-1">Organizational Unit</label>
                                             <input
                                                 type="text"
                                                 value={formData.department}
                                                 onChange={(e) => setFormData({ ...formData, department: e.target.value })}
                                                 placeholder="e.g. Strategic Operations"
-                                                className="w-full bg-gray-50 border border-gray-100 rounded-2xl py-4 px-6 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all text-gray-900 font-semibold"
+                                                className="w-full bg-gray-50 border border-border rounded-2xl py-4 px-6 focus:outline-none focus:ring-2 focus:ring-primary/10 focus:border-primary transition-all text-content-primary font-black text-sm placeholder:text-content-secondary/40"
                                                 required
                                             />
-                                        </div>
-
-                                        <div className="space-y-2">
-                                            <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest ml-1">Priority Classification</label>
-                                            <select
-                                                value={formData.priority}
-                                                onChange={(e) => setFormData({ ...formData, priority: e.target.value })}
-                                                className="w-full bg-gray-50 border border-gray-100 rounded-2xl py-4 px-6 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all text-gray-900 font-semibold cursor-pointer"
-                                            >
-                                                <option value="Low">Low - Deferred</option>
-                                                <option value="Medium">Medium - Standard</option>
-                                                <option value="High">High - Accelerated</option>
-                                                <option value="Critical">Critical - Immediate</option>
-                                            </select>
                                         </div>
                                     </div>
 
                                     {activeForm === 'Data' && (
                                         <div className="space-y-2">
-                                            <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest ml-1">Temporal Window (Date Range)</label>
+                                            <label className="text-[10px] font-normal text-gray-400 uppercase tracking-widest ml-1">Temporal Window (Date Range)</label>
                                             <input
                                                 type="text"
                                                 value={formData.dateRange}
                                                 onChange={(e) => setFormData({ ...formData, dateRange: e.target.value })}
                                                 placeholder="e.g. Q1 2024 / Jan 01 - Mar 31"
-                                                className="w-full bg-gray-50 border border-gray-100 rounded-2xl py-4 px-6 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all text-gray-900 font-semibold"
+                                                className="w-full bg-gray-50 border border-border rounded-2xl py-4 px-6 focus:outline-none focus:ring-2 focus:ring-primary/10 focus:border-primary transition-all text-content-primary font-black text-sm placeholder:text-content-secondary/40"
                                                 required
                                             />
                                         </div>
                                     )}
 
                                     <div className="space-y-2">
-                                        <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest ml-1">Strategic Rationale / Description</label>
+                                        <label className="text-[10px] font-normal text-gray-400 uppercase tracking-widest ml-1">Strategic Rationale / Description</label>
                                         <textarea
                                             value={activeForm === 'Support' ? formData.description : formData.reason}
                                             onChange={(e) => setFormData({ ...formData, [activeForm === 'Support' ? 'description' : 'reason']: e.target.value })}
                                             placeholder="Provide detailed context for administrative review..."
-                                            className="w-full h-40 bg-gray-50 border border-gray-100 rounded-2xl py-4 px-6 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all text-gray-900 font-semibold resize-none"
+                                            className="w-full h-40 bg-gray-50 border border-border rounded-2xl py-4 px-6 focus:outline-none focus:ring-2 focus:ring-primary/10 focus:border-primary transition-all text-content-primary font-black text-sm placeholder:text-content-secondary/40 resize-none"
                                             required
                                         />
                                     </div>
@@ -383,19 +368,19 @@ const ManagerRequests = () => {
                                                 accept="image/*,.log,.txt,.pdf"
                                             />
                                             {selectedFile ? (
-                                                <div className="p-6 bg-indigo-50 border border-indigo-200 rounded-2xl flex items-center justify-between group animate-in slide-in-from-bottom-2 duration-300">
+                                                <div className="p-6 bg-background border border-primary/20 rounded-2xl flex items-center justify-between group animate-in slide-in-from-bottom-2 duration-300">
                                                     <div className="flex items-center space-x-4">
-                                                        <div className="h-10 w-10 rounded-xl bg-white flex items-center justify-center shadow-sm border border-indigo-100">
-                                                            <FileCheck className="h-5 w-5 text-emerald-500" />
+                                                        <div className="h-10 w-10 rounded-xl bg-white flex items-center justify-center shadow-sm border border-primary/10">
+                                                            <FileCheck className="h-5 w-5 text-secondary" />
                                                         </div>
                                                         <div>
-                                                            <p className="text-[10px] font-bold text-indigo-400 uppercase tracking-widest">Selected Evidence</p>
-                                                            <p className="text-sm font-bold text-gray-900">{selectedFile.name}</p>
+                                                            <p className="text-[10px] font-black text-primary/60 uppercase tracking-widest">Selected Evidence</p>
+                                                            <p className="text-sm font-black text-content-primary">{selectedFile.name}</p>
                                                         </div>
                                                     </div>
                                                     <button
                                                         onClick={removeFile}
-                                                        className="h-8 w-8 rounded-full bg-white border border-gray-200 flex items-center justify-center text-gray-400 hover:text-rose-600 hover:border-rose-200 transition-all shadow-sm"
+                                                        className="h-8 w-8 rounded-full bg-white border border-border flex items-center justify-center text-gray-400 hover:text-rose-600 hover:border-rose-200 transition-all shadow-sm"
                                                     >
                                                         <X className="h-4 w-4" />
                                                     </button>
@@ -403,12 +388,12 @@ const ManagerRequests = () => {
                                             ) : (
                                                 <div
                                                     onClick={() => fileInputRef.current?.click()}
-                                                    className="p-8 bg-gray-50/50 border border-dashed border-gray-200 rounded-2xl flex flex-col items-center justify-center space-y-3 group cursor-pointer hover:bg-white hover:border-indigo-400 hover:shadow-lg hover:shadow-indigo-50 transition-all"
+                                                    className="p-8 bg-background/50 border border-dashed border-border rounded-2xl flex flex-col items-center justify-center space-y-3 group cursor-pointer hover:bg-white hover:border-primary/40 hover:shadow-lg hover:shadow-primary/5 transition-all"
                                                 >
-                                                    <div className="h-10 w-10 rounded-full bg-white border border-gray-100 flex items-center justify-center shadow-sm group-hover:scale-110 transition-transform">
-                                                        <Upload className="h-5 w-5 text-indigo-500" />
+                                                    <div className="h-10 w-10 rounded-full bg-white border border-border flex items-center justify-center shadow-sm group-hover:scale-110 transition-transform">
+                                                        <Upload className="h-5 w-5 text-primary" />
                                                     </div>
-                                                    <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Evidence Upload (Capture / Logs)</p>
+                                                    <p className="text-[10px] font-black text-content-secondary/40 uppercase tracking-widest">Evidence Upload (Capture / Logs)</p>
                                                 </div>
                                             )}
                                         </div>
@@ -422,7 +407,7 @@ const ManagerRequests = () => {
                                         <button
                                             type="submit"
                                             disabled={submitting}
-                                            className="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-4 px-10 rounded-2xl shadow-lg shadow-indigo-100 transition-all active:scale-[0.98] disabled:opacity-50 flex items-center space-x-3"
+                                            className="bg-primary hover:bg-hover text-white font-black py-4 px-10 rounded-2xl shadow-lg shadow-primary/10 transition-all active:scale-[0.98] disabled:opacity-50 flex items-center space-x-3"
                                         >
                                             {submitting ? (
                                                 <>
@@ -443,13 +428,13 @@ const ManagerRequests = () => {
                             <motion.div
                                 initial={{ opacity: 0 }}
                                 animate={{ opacity: 1 }}
-                                className="bg-white border border-dashed border-gray-200 p-20 rounded-[48px] flex flex-col items-center justify-center text-center space-y-8 h-full min-h-[500px]"
+                                className="bg-white border border-dashed border-border p-20 rounded-[48px] flex flex-col items-center justify-center text-center space-y-8 h-full min-h-[500px]"
                             >
-                                <div className="h-24 w-24 bg-gray-50 rounded-[32px] flex items-center justify-center border border-gray-100 shadow-inner">
+                                <div className="h-24 w-24 bg-gray-50 rounded-[32px] flex items-center justify-center border border-border shadow-inner">
                                     <LayoutGrid className="h-10 w-10 text-gray-200" />
                                 </div>
                                 <div>
-                                    <h3 className="text-2xl font-bold text-gray-900 tracking-tight mb-2">Selective Queue Initialization</h3>
+                                    <h3 className="text-2xl font-semibold text-content-primary tracking-tight mb-2">Selective Queue Initialization</h3>
                                     <p className="text-gray-400 text-sm max-w-sm mx-auto">Select an administrative protocol card above to begin structuring your executive request.</p>
                                 </div>
                             </motion.div>

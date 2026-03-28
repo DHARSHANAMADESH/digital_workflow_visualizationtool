@@ -61,14 +61,14 @@ const Navbar = () => {
     };
 
     return (
-        <header className="h-16 bg-white border-b border-gray-200 px-8 flex items-center justify-between sticky top-0 z-40">
+        <header className="h-16 bg-white border-b border-border px-8 flex items-center justify-between sticky top-0 z-40">
             {/* Global search bar */}
             <div className="flex-1 max-w-lg">
                 <div className="relative group">
                     {isSearching ? (
-                        <Loader2 className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-indigo-600 animate-spin" />
+                        <Loader2 className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-primary animate-spin" />
                     ) : (
-                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 group-focus-within:text-indigo-600 transition-colors" />
+                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-content-secondary/40 group-focus-within:text-primary transition-colors" />
                     )}
                     <input
                         type="text"
@@ -76,7 +76,7 @@ const Navbar = () => {
                         onChange={(e) => setSearchQuery(e.target.value)}
                         onKeyDown={handleSearch}
                         placeholder="Search workflows, requests..."
-                        className="w-full pl-9 pr-4 py-1.5 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all font-medium text-sm text-gray-900 placeholder:text-gray-500 shadow-sm"
+                        className="w-full pl-9 pr-4 py-1.5 bg-background border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all font-medium text-sm text-content-primary placeholder:text-content-secondary/40 shadow-sm"
                     />
                 </div>
             </div>
@@ -85,33 +85,33 @@ const Navbar = () => {
             <div className="flex items-center space-x-5">
                 <button
                     onClick={() => navigate('/employee/new-request')}
-                    className="bg-indigo-600 hover:bg-indigo-700 text-white px-3 py-1.5 rounded-lg font-medium text-sm flex items-center space-x-1.5 shadow-sm transition-all active:scale-95"
+                    className="bg-primary hover:bg-primary-hover text-white px-3 py-1.5 rounded-lg font-medium text-sm flex items-center space-x-1.5 shadow-sm transition-all active:scale-95"
                 >
                     <Plus className="h-4 w-4" />
                     <span>New Request</span>
                 </button>
 
-                <div className="h-4 border-l border-gray-200"></div>
+                <div className="h-4 border-l border-border"></div>
 
                 <button
                     onClick={() => navigate('/notifications')}
-                    className="p-2 text-gray-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition-all relative group"
+                    className="p-2 text-content-secondary/40 hover:text-primary hover:bg-background rounded-lg transition-all relative group"
                     title="Notifications"
                 >
                     <Bell className="h-5 w-5 group-hover:animate-swing" />
                     {unreadCount > 0 && (
-                        <span className="absolute top-1.5 right-1.5 h-4 w-4 bg-red-500 text-white text-[10px] font-bold flex items-center justify-center rounded-full border-2 border-white pointer-events-none">
+                        <span className="absolute top-1.5 right-1.5 h-4 w-4 bg-red-500 text-white text-[10px] font-semibold flex items-center justify-center rounded-full border-2 border-white pointer-events-none">
                             {unreadCount > 9 ? '9+' : unreadCount}
                         </span>
                     )}
                 </button>
 
-                <div className="flex items-center space-x-3 border-l border-gray-200 pl-5">
+                <div className="flex items-center space-x-3 border-l border-border pl-5">
                     <div className="text-right hidden md:block">
-                        <p className="text-sm font-semibold text-gray-900 leading-tight">{currentUser.name}</p>
-                        <p className="text-xs text-gray-500 font-medium">{currentUser.role}</p>
+                        <p className="text-sm font-medium text-content-primary leading-tight">{currentUser.name}</p>
+                        <p className="text-xs text-content-secondary font-normal">{currentUser.role}</p>
                     </div>
-                    <div className="h-9 w-9 rounded-full bg-indigo-100 text-indigo-700 flex items-center justify-center font-bold text-sm ring-2 ring-white shadow-sm cursor-pointer hover:ring-indigo-100 transition-all">
+                    <div className="h-9 w-9 rounded-full bg-background text-primary flex items-center justify-center font-semibold text-sm ring-2 ring-white shadow-sm cursor-pointer hover:ring-primary/10 transition-all">
                         {currentUser.name.split(' ').map(n => n[0]).slice(0, 2).join('')}
                     </div>
                 </div>

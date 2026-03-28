@@ -60,4 +60,16 @@ exports.getWorkflowById = async (req, res) => {
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
-}
+};
+
+exports.deleteWorkflow = async (req, res) => {
+    try {
+        const workflow = await WorkflowTemplate.findByIdAndDelete(req.params.id);
+        if (!workflow) {
+            return res.status(404).json({ message: "Workflow Template not found" });
+        }
+        res.json({ message: "Workflow deleted successfully" });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};

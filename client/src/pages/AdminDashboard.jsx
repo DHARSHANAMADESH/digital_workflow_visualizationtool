@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useAuth } from '../context/AuthContext';
-import { LayoutDashboard, FileText, GitBranch, Activity, Shield, Settings, Users, BarChart2 } from 'lucide-react';
+import { LayoutDashboard, FileText, GitBranch, Activity, Shield, Settings, Users, BarChart2, Trash2 } from 'lucide-react';
 import CreateWorkflow from './CreateWorkflow';
 import { requestService, workflowService } from '../services/api';
 import WorkflowCard from '../components/WorkflowCard';
@@ -21,6 +21,16 @@ const AdminDashboard = () => {
     });
     const [loading, setLoading] = useState(true);
     const { socket } = useSocket();
+
+    const handleDeleteWorkflow = async (id) => {
+        if (!window.confirm('Are you sure you want to delete this workflow?')) return;
+        try {
+            await workflowService.delete(id);
+            fetchSystemData();
+        } catch (error) {
+            console.error('Failed to delete workflow', error);
+        }
+    };
 
     const fetchSystemData = async () => {
         try {
@@ -62,14 +72,14 @@ const AdminDashboard = () => {
         >
 
             {/* Workflow Pipeline View */}
-            <section className="bg-white rounded-[3rem] border border-gray-100 shadow-sm p-8 md:p-10">
+            <section className="bg-white rounded-[3rem] border border-border shadow-sm p-8 md:p-10">
                 <div className="flex items-center space-x-5 mb-8 px-2">
-                    <div className="h-12 w-12 rounded-2xl bg-indigo-50 flex items-center justify-center border border-indigo-100 shadow-inner">
-                        <LayoutDashboard className="h-6 w-6 text-indigo-600" />
+                    <div className="h-12 w-12 rounded-2xl bg-background flex items-center justify-center border border-primary/10 shadow-inner">
+                        <LayoutDashboard className="h-6 w-6 text-primary" />
                     </div>
                     <div>
-                        <h2 className="text-2xl font-black text-gray-900 tracking-tighter uppercase">Workflow Pipeline</h2>
-                        <p className="text-gray-400 font-bold text-[10px] uppercase tracking-[0.15em] mt-0.5">Real-time status tracking</p>
+                        <h2 className="text-2xl font-semibold text-content-primary tracking-tighter uppercase">Workflow Pipeline</h2>
+                        <p className="text-gray-400 font-normal text-[10px] uppercase tracking-[0.15em] mt-0.5">Real-time status tracking</p>
                     </div>
                 </div>
                 <WorkflowPipeline metrics={metrics} />
@@ -80,50 +90,49 @@ const AdminDashboard = () => {
                 <section>
                     <div className="flex items-center justify-between mb-10 px-6">
                         <div className="flex items-center space-x-5">
-                            <div className="h-12 w-12 rounded-2xl bg-indigo-50 flex items-center justify-center border border-indigo-100 shadow-inner">
-                                <GitBranch className="h-6 w-6 text-indigo-600" />
+                            <div className="h-12 w-12 rounded-2xl bg-background flex items-center justify-center border border-primary/10 shadow-inner">
+                                <GitBranch className="h-6 w-6 text-primary" />
                             </div>
                             <div>
-                                <h2 className="text-3xl font-black text-gray-900 tracking-tighter uppercase">Workflow Architect</h2>
-                                <p className="text-gray-400 font-bold text-xs uppercase tracking-[0.15em] mt-1">Design & Registry Management</p>
+                                <h2 className="text-3xl font-semibold text-content-primary tracking-tighter uppercase">Workflow Architect</h2>
                             </div>
                         </div>
-                        <div className="h-px flex-1 bg-gradient-to-r from-indigo-100 to-transparent mx-10 hidden lg:block" />
+                        <div className="h-px flex-1 bg-gradient-to-r from-primary/10 to-transparent mx-10 hidden lg:block" />
                     </div>
 
-                    <div className="bg-white rounded-[48px] border border-gray-100 shadow-sm ring-1 ring-black/5 overflow-hidden p-6 md:p-10">
-                        <CreateWorkflow />
+                    <div className="bg-white rounded-[48px] border border-border shadow-sm ring-1 ring-black/5 overflow-hidden p-6 md:p-10">
+                        <CreateWorkflow onSave={fetchSystemData} />
                     </div>
                 </section>
 
                 {/* Available Workflows Section */}
                 <section>
                     <div className="flex items-center space-x-5 mb-10 px-6">
-                        <div className="h-12 w-12 rounded-2xl bg-indigo-50 flex items-center justify-center border border-indigo-100 shadow-inner">
-                            <Activity className="h-6 w-6 text-indigo-600" />
+                        <div className="h-12 w-12 rounded-2xl bg-background flex items-center justify-center border border-primary/10 shadow-inner">
+                            <Activity className="h-6 w-6 text-primary" />
                         </div>
                         <div>
-                            <h2 className="text-3xl font-black text-gray-900 tracking-tighter uppercase">Available Workflows</h2>
-                            <p className="text-gray-400 font-bold text-xs uppercase tracking-[0.15em] mt-1">System Protocol Directory</p>
+                            <h2 className="text-3xl font-semibold text-content-primary tracking-tighter uppercase">Available Workflows</h2>
+                            <p className="text-gray-400 font-normal text-xs uppercase tracking-[0.15em] mt-1">System Protocol Directory</p>
                         </div>
                     </div>
 
-                    <div className="bg-white rounded-3xl border border-gray-100 shadow-sm ring-1 ring-black/5 overflow-hidden">
+                    <div className="bg-white rounded-3xl border border-border shadow-sm ring-1 ring-black/5 overflow-hidden">
                         {loading ? (
                             <div className="flex items-center justify-center p-12">
-                                <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-indigo-600"></div>
+                                <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-primary"></div>
                             </div>
                         ) : workflows.length === 0 ? (
-                            <div className="p-12 text-center bg-gray-50 border-dashed border-2 border-gray-100">
-                                <h3 className="text-lg font-bold text-gray-900 mb-2">No Protocols Available</h3>
-                                <p className="text-sm text-gray-500 max-w-xs mx-auto">There are currently no workflows in the system.</p>
+                            <div className="p-12 text-center bg-gray-50 border-dashed border-2 border-border">
+                                <h3 className="text-lg font-semibold text-content-primary mb-2">No Protocols Available</h3>
+                                <p className="text-sm text-content-secondary max-w-xs mx-auto">There are currently no workflows in the system.</p>
                             </div>
                         ) : (
                             <div className="divide-y divide-gray-100">
                                 {/* Employee Workflows Section */}
-                                <div className="bg-gray-50/50 px-8 py-3 border-b border-gray-100">
-                                    <h3 className="text-[10px] font-black text-indigo-600 uppercase tracking-[0.2em] flex items-center space-x-2">
-                                        <div className="h-1.5 w-1.5 rounded-full bg-indigo-600 animate-pulse" />
+                                <div className="bg-gray-50/50 px-8 py-3 border-b border-border">
+                                    <h3 className="text-[10px] font-semibold text-primary uppercase tracking-[0.2em] flex items-center space-x-2">
+                                        <div className="h-1.5 w-1.5 rounded-full bg-primary animate-pulse" />
                                         <span>Employee Operational Protocols</span>
                                     </h3>
                                 </div>
@@ -131,19 +140,25 @@ const AdminDashboard = () => {
                                     <div key={wf._id} className="group">
                                         <div className="flex items-center justify-between p-4 px-6 md:px-8 transition-colors">
                                             <div className="flex items-center space-x-4">
-                                                <div className="h-10 w-10 rounded-xl bg-gray-50 flex items-center justify-center border border-gray-100 text-gray-400 transition-all">
+                                                <div className="h-10 w-10 rounded-xl bg-gray-50 flex items-center justify-center border border-border text-gray-400 transition-all">
                                                     <FileText className="h-5 w-5" />
                                                 </div>
                                                 <span className="text-base font-semibold text-gray-800 tracking-tight">{wf.workflowName}</span>
                                             </div>
+                                            <button 
+                                                onClick={() => handleDeleteWorkflow(wf._id)}
+                                                className="p-2 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors opacity-0 group-hover:opacity-100"
+                                            >
+                                                <Trash2 className="h-5 w-5" />
+                                            </button>
                                         </div>
                                     </div>
                                 ))}
 
                                 {/* Manager Workflows Section */}
-                                <div className="bg-gray-50/50 px-8 py-3 border-b border-t border-gray-100">
-                                    <h3 className="text-[10px] font-black text-indigo-600 uppercase tracking-[0.2em] flex items-center space-x-2">
-                                        <div className="h-1.5 w-1.5 rounded-full bg-indigo-600 animate-pulse" />
+                                <div className="bg-gray-50/50 px-8 py-3 border-b border-t border-border">
+                                    <h3 className="text-[10px] font-semibold text-primary uppercase tracking-[0.2em] flex items-center space-x-2">
+                                        <div className="h-1.5 w-1.5 rounded-full bg-primary animate-pulse" />
                                         <span>Manager Enterprise Protocols</span>
                                     </h3>
                                 </div>
@@ -151,11 +166,17 @@ const AdminDashboard = () => {
                                     <div key={wf._id} className="group">
                                         <div className="flex items-center justify-between p-4 px-6 md:px-8 transition-colors">
                                             <div className="flex items-center space-x-4">
-                                                <div className="h-10 w-10 rounded-xl bg-gray-50 flex items-center justify-center border border-gray-100 text-gray-400 transition-all">
+                                                <div className="h-10 w-10 rounded-xl bg-gray-50 flex items-center justify-center border border-border text-gray-400 transition-all">
                                                     <FileText className="h-5 w-5" />
                                                 </div>
                                                 <span className="text-base font-semibold text-gray-800 tracking-tight">{wf.workflowName}</span>
                                             </div>
+                                            <button 
+                                                onClick={() => handleDeleteWorkflow(wf._id)}
+                                                className="p-2 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors opacity-0 group-hover:opacity-100"
+                                            >
+                                                <Trash2 className="h-5 w-5" />
+                                            </button>
                                         </div>
                                     </div>
                                 ))}

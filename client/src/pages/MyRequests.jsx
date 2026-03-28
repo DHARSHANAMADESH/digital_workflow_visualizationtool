@@ -80,8 +80,8 @@ const MyRequests = () => {
         >
             <div className="flex justify-between items-end">
                 <div>
-                    <h1 className="text-3xl font-bold text-gray-900">My Requests</h1>
-                    <p className="text-gray-500 mt-1 font-medium">Track the status of your submitted petitions.</p>
+                    <h1 className="text-3xl font-semibold text-content-primary">My Requests</h1>
+                    <p className="text-content-secondary mt-1 font-medium">Track the status of your submitted petitions.</p>
                 </div>
                 <button
                     onClick={() => setShowSubmitModal(true)}
@@ -92,7 +92,7 @@ const MyRequests = () => {
                 </button>
             </div>
 
-            <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+            <div className="bg-white rounded-2xl border border-border shadow-sm overflow-hidden">
                 <div className="p-4 border-b border-gray-50 flex justify-between items-center bg-gray-50/50">
                     <div className="flex items-center space-x-4">
                         <div className="relative">
@@ -100,11 +100,11 @@ const MyRequests = () => {
                             <input
                                 type="text"
                                 placeholder="Search petitions..."
-                                className="bg-white border border-gray-200 rounded-lg py-2 pl-9 pr-4 text-sm focus:outline-none focus:border-indigo-500 text-gray-900 placeholder:text-gray-400 transition-all"
+                                className="bg-white border border-border rounded-lg py-2 pl-9 pr-4 text-sm focus:outline-none focus:border-primary text-content-primary placeholder:text-content-secondary/40 transition-all font-bold"
                             />
                         </div>
                     </div>
-                    <button className="flex items-center space-x-2 text-sm text-gray-500 hover:text-indigo-600 transition-colors font-bold uppercase tracking-widest">
+                    <button className="flex items-center space-x-2 text-sm text-content-secondary hover:text-primary transition-colors font-medium uppercase tracking-widest">
                         <Filter className="h-4 w-4" />
                         <span>Filter</span>
                     </button>
@@ -113,8 +113,8 @@ const MyRequests = () => {
                 <div className="overflow-x-auto">
                     <table className="w-full text-left">
                         <thead>
-                            <tr className="text-[10px] uppercase tracking-widest text-gray-400 border-b border-gray-100 bg-gray-50/30">
-                                <th className="px-6 py-4 font-bold">Request Title</th>
+                            <tr className="text-[10px] uppercase tracking-widest text-gray-400 border-b border-border bg-gray-50/30">
+                                <th className="px-6 py-4 font-semibold text-left">Request Title</th>
                                 <th className="px-6 py-4 font-bold">Workflow</th>
                                 <th className="px-6 py-4 font-bold">Current Phase</th>
                                 <th className="px-6 py-4 font-bold">Status</th>
@@ -124,11 +124,11 @@ const MyRequests = () => {
                         <tbody className="divide-y divide-white/5 text-sm">
                             {loading ? (
                                 <tr>
-                                    <td colSpan="5" className="px-6 py-12 text-center text-gray-500">
+                                    <td colSpan="5" className="px-6 py-12 text-center text-content-secondary">
                                         <div className="flex justify-center items-center space-x-2">
-                                            <div className="h-3 w-3 bg-indigo-500 rounded-full animate-bounce" />
-                                            <div className="h-3 w-3 bg-indigo-400 rounded-full animate-bounce delay-75" />
-                                            <div className="h-3 w-3 bg-indigo-300 rounded-full animate-bounce delay-150" />
+                                            <div className="h-3 w-3 bg-primary/20 rounded-full animate-bounce" />
+                                            <div className="h-3 w-3 bg-primary/40 rounded-full animate-bounce delay-75" />
+                                            <div className="h-3 w-3 bg-primary/60 rounded-full animate-bounce delay-150" />
                                         </div>
                                     </td>
                                 </tr>
@@ -137,16 +137,16 @@ const MyRequests = () => {
                                     <td colSpan="5" className="px-6 py-20 text-center">
                                         <div className="flex flex-col items-center justify-center space-y-4">
                                             <div className="relative">
-                                                <div className="absolute inset-0 bg-indigo-500/10 blur-xl rounded-full" />
-                                                <div className="h-24 w-24 rounded-2xl bg-gray-50 border border-gray-100 flex items-center justify-center relative z-10 shadow-sm">
-                                                    <Send className="h-10 w-10 text-indigo-600 opacity-60 -ml-1 mt-1 transform -rotate-12" />
+                                                <div className="absolute inset-0 bg-primary/10 blur-xl rounded-full" />
+                                                <div className="h-24 w-24 rounded-2xl bg-background border border-primary/10 flex items-center justify-center relative z-10 shadow-sm">
+                                                    <Send className="h-10 w-10 text-primary opacity-60 -ml-1 mt-1 transform -rotate-12" />
                                                 </div>
                                             </div>
-                                            <h3 className="text-xl font-bold text-gray-900 mt-4">No Requests Found</h3>
-                                            <p className="text-gray-500 max-w-sm mx-auto text-sm font-medium">You haven't submitted any workflow requests yet. When you do, they will appear here for you to track.</p>
+                                            <h3 className="text-xl font-semibold text-content-primary mt-4">No Requests Found</h3>
+                                            <p className="text-content-secondary max-w-sm mx-auto text-sm font-medium">You haven't submitted any workflow requests yet. When you do, they will appear here for you to track.</p>
                                             <button
                                                 onClick={() => setShowSubmitModal(true)}
-                                                className="bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-2.5 rounded-xl font-black text-xs uppercase tracking-widest flex items-center space-x-2 shadow-xl shadow-indigo-500/25 transition-all hover:-translate-y-0.5 mt-4"
+                                                className="bg-primary hover:bg-hover text-white px-5 py-2.5 rounded-xl font-black text-xs uppercase tracking-widest flex items-center space-x-2 shadow-xl shadow-primary/20 transition-all hover:-translate-y-0.5 mt-4"
                                             >
                                                 <Plus className="h-4 w-4" />
                                                 <span>Start First Request</span>
@@ -162,14 +162,14 @@ const MyRequests = () => {
                                         className="hover:bg-gray-50 transition-colors group cursor-pointer border-b border-gray-50 last:border-0"
                                     >
                                         <td className="px-6 py-5">
-                                            <p className="font-bold text-gray-900 group-hover:text-indigo-700 transition-colors">{req.title}</p>
-                                            <p className="text-[11px] text-gray-400 truncate max-w-[200px] mt-0.5 font-medium">{req.description}</p>
+                                            <p className="font-bold text-content-primary group-hover:text-primary transition-colors">{req.title}</p>
+                                            <p className="text-[11px] text-content-secondary/40 truncate max-w-[200px] mt-0.5 font-bold uppercase tracking-tight">{req.description}</p>
                                         </td>
-                                        <td className="px-6 py-5 text-gray-500 font-bold text-xs">{req.templateId?.workflowName || 'Default'}</td>
+                                        <td className="px-6 py-5 text-content-secondary font-bold text-xs">{req.templateId?.workflowName || 'Default'}</td>
                                         <td className="px-6 py-5">
-                                            <span className="flex items-center space-x-2 text-gray-600">
-                                                <span className="h-1.5 w-1.5 rounded-full bg-indigo-500" />
-                                                <span className="font-bold text-xs uppercase tracking-tight">
+                                            <span className="flex items-center space-x-2 text-content-secondary">
+                                                <span className="h-1.5 w-1.5 rounded-full bg-primary" />
+                                                <span className="font-black text-[10px] uppercase tracking-widest">
                                                     {req.status === 'pending'
                                                         ? req.templateId?.nodes?.find(n => n.nodeId === req.currentNodeId)?.title || 'Processing'
                                                         : req.status.toUpperCase()}
@@ -195,14 +195,14 @@ const MyRequests = () => {
                     <motion.div
                         initial={{ scale: 0.9, opacity: 0 }}
                         animate={{ scale: 1, opacity: 1 }}
-                        className="bg-white w-full max-w-lg p-8 space-y-6 rounded-2xl border border-gray-100 shadow-xl"
+                        className="bg-white w-full max-w-lg p-8 space-y-6 rounded-2xl border border-border shadow-xl"
                     >
-                        <h2 className="text-2xl font-bold text-gray-900">Initiate New Petition</h2>
+                        <h2 className="text-2xl font-bold text-content-primary">Initiate New Petition</h2>
                         <form onSubmit={handleSubmit} className="space-y-4">
                             <div>
                                 <label className="block text-xs font-bold text-gray-400 mb-2 uppercase tracking-widest">Select Protocol</label>
                                 <select
-                                    className="w-full bg-gray-50 border border-gray-100 rounded-xl p-4 focus:outline-none focus:border-indigo-500 disabled:opacity-50 text-gray-900 font-bold appearance-none cursor-pointer"
+                                    className="w-full bg-background border border-border rounded-xl p-4 focus:outline-none focus:border-primary disabled:opacity-50 text-content-primary font-black text-sm appearance-none cursor-pointer"
                                     value={formData.templateId}
                                     onChange={(e) => setFormData({ ...formData, templateId: e.target.value })}
                                     disabled={workflows.length === 0}
@@ -224,7 +224,7 @@ const MyRequests = () => {
                                 <input
                                     type="text"
                                     placeholder="e.g., Annual Leave Request"
-                                    className="w-full bg-gray-50 border border-gray-100 rounded-xl p-4 focus:outline-none focus:border-indigo-500 text-gray-900 font-bold placeholder:text-gray-300"
+                                    className="w-full bg-background border border-border rounded-xl p-4 focus:outline-none focus:border-primary text-content-primary font-black text-sm placeholder:text-content-secondary/40"
                                     value={formData.title}
                                     onChange={(e) => setFormData({ ...formData, title: e.target.value })}
                                 />
@@ -233,7 +233,7 @@ const MyRequests = () => {
                                 <label className="block text-xs font-bold text-gray-400 mb-2 uppercase tracking-widest">Detailed Summary (Optional)</label>
                                 <textarea
                                     rows="3"
-                                    className="w-full bg-gray-50 border border-gray-100 rounded-xl p-4 focus:outline-none focus:border-indigo-500 text-gray-900 font-medium placeholder:text-gray-300"
+                                    className="w-full bg-background border border-border rounded-xl p-4 focus:outline-none focus:border-primary text-content-primary font-bold text-sm placeholder:text-content-secondary/40 resize-none"
                                     value={formData.description}
                                     onChange={(e) => setFormData({ ...formData, description: e.target.value })}
                                 ></textarea>
@@ -242,13 +242,13 @@ const MyRequests = () => {
                                 <button
                                     type="button"
                                     onClick={() => setShowSubmitModal(false)}
-                                    className="flex-1 px-4 py-2 border border-gray-200 rounded-lg text-gray-600 font-medium hover:bg-gray-50 transition-colors"
+                                    className="flex-1 px-4 py-2 border border-border rounded-lg text-gray-600 font-medium hover:bg-gray-50 transition-colors"
                                 >
                                     Cancel
                                 </button>
                                 <button
                                     type="submit"
-                                    className="flex-1 bg-indigo-600 text-white px-4 py-2 rounded-lg font-bold hover:bg-indigo-700 transition-colors shadow-lg shadow-indigo-500/20"
+                                    className="flex-1 bg-primary text-white px-4 py-2 rounded-xl font-black text-xs uppercase tracking-widest hover:bg-hover transition-colors shadow-lg shadow-primary/20"
                                 >
                                     Submit
                                 </button>

@@ -1,13 +1,14 @@
 import axios from 'axios';
 
 const api = axios.create({
-    baseURL: 'http://localhost:5000/api',
+    baseURL: import.meta.env.VITE_API_URL || 'http://localhost:5000/api',
 });
 
 export const workflowService = {
     create: (data) => api.post('/workflows', data),
     getAll: () => api.get('/workflows'),
     getAvailable: () => api.get('/workflows/available'),
+    delete: (id) => api.delete(`/workflows/${id}`)
 };
 
 export const requestService = {

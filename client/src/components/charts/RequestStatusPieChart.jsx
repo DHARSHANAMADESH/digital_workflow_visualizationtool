@@ -27,8 +27,8 @@ const RequestStatusPieChart = ({ requests = [] }) => {
     const CustomTooltip = ({ active, payload }) => {
         if (active && payload && payload.length) {
             return (
-                <div className="bg-white border border-gray-200 p-3 rounded-lg shadow-lg">
-                    <p className="text-gray-900 font-bold">{`${payload[0].name}: ${payload[0].value}`}</p>
+                <div className="bg-white border border-border p-3 rounded-lg shadow-lg">
+                    <p className="text-content-primary font-bold">{`${payload[0].name}: ${payload[0].value}`}</p>
                 </div>
             );
         }
@@ -46,7 +46,7 @@ const RequestStatusPieChart = ({ requests = [] }) => {
                             cy="50%"
                             innerRadius={60}
                             outerRadius={80}
-                            paddingAngle={5}
+                            paddingAngle={data.length > 1 ? 5 : 0}
                             dataKey="value"
                             stroke="none"
                         >
@@ -63,7 +63,7 @@ const RequestStatusPieChart = ({ requests = [] }) => {
                     </PieChart>
                 </ResponsiveContainer>
             ) : (
-                <div className="h-full flex items-center justify-center text-gray-500">
+                <div className="h-full flex items-center justify-center text-content-secondary">
                     No data available
                 </div>
             )}
